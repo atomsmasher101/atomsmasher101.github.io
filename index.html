@@ -573,17 +573,25 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#info">Trip Info</a></li>
-            <li><a href="#houses">Houses</a></li>
-            <li><a href="#competition">Competition</a></li>
-            <li><a href="agreement.html">Sign Agreement</a></li>
-            <li><a href="gallery.html">Photo Gallery</a></li>
-            <li><a href="merch.html">Get Merch</a></li>
-        </ul>
-    </nav>
+    <div id="nav-placeholder"></div>
+
+<script>
+    // Fetch and inject the navigation
+    fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('nav-placeholder').innerHTML = data;
+            
+            // Highlight the active link based on the current filename
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.style.color = '#ffff00'; // Yellow for active page
+                }
+            });
+        });
+</script>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
