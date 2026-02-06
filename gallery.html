@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llama Memories - Wilmington 2026</title>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/imagekit-javascript/1.5.9/imagekit.min.js" 
-            onerror="this.src='https://cdn.jsdelivr.net/npm/imagekit-javascript@1.5.9/dist/imagekit.min.js'"></script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -68,89 +65,96 @@
     <div class="gallery-grid" id="gallery-grid"></div>
 
     <script>
-        // Use a small delay to ensure scripts have parsed
-        setTimeout(() => {
-            if (typeof ImageKit === 'undefined') {
-                document.getElementById('upload-status').innerText = "❌ SDK Error: Please disable AdBlock or check your connection.";
-                return;
+        // --- CONFIGURATION ---
+        const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
+        const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
+        const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg=";
+        // Direct API endpoint for uploads (Bypassing SDK)
+        const UPLOAD_API_URL = "https://upload.imagekit.io/api/v1/files/upload";
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-selector');
+        const status = document.getElementById('upload-status');
+        const grid = document.getElementById('gallery-grid');
+
+        // 1. Gallery Loader
+        async function loadGallery() {
+            const b64Key = btoa(RESTRICTED_API_KEY + ":");
+            try {
+                const response = await fetch("https://api.imagekit.io/v1/files?tags=meetup2026", {
+                    headers: { 'Authorization': `Basic ${b64Key}` }
+                });
+                const files = await response.json();
+                grid.innerHTML = '';
+                files.forEach(file => {
+                    const isVid = file.fileType === 'non-image' && file.mime.includes('video');
+                    addPhotoToGrid(file.url, isVid);
+                });
+            } catch (err) {
+                console.error("Gallery Load Fail:", err);
+                status.innerText = "Gallery failed to load.";
             }
+        }
 
-            const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
-            const IK_URL_ENDPOINT = "https://ik.imagekit.io/atomsmasher101/";
-            const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
-            const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg=";
+        function addPhotoToGrid(url, isVideo = false) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            const thumbUrl = isVideo ? url : `${url}?tr=w-600`;
+            div.innerHTML = isVideo ? `<video src="${url}" controls></video>` : `<img src="${thumbUrl}" loading="lazy">`;
+            grid.prepend(div);
+        }
 
-            const imagekit = new ImageKit({
-                publicKey: IK_PUBLIC_KEY,
-                urlEndpoint: IK_URL_ENDPOINT
-            });
+        // 2. THE MANUAL UPLOAD FUNCTION (No SDK!)
+        uploadBtn.addEventListener('click', async function() {
+            const file = fileInput.files[0];
+            if (!file) return alert("Select a file!");
 
-            const uploadBtn = document.getElementById('upload-btn');
-            const fileInput = document.getElementById('file-selector');
-            const status = document.getElementById('upload-status');
-            const grid = document.getElementById('gallery-grid');
+            uploadBtn.disabled = true;
+            status.innerText = "Getting permission... 🔑";
 
-            async function loadGallery() {
-                const b64Key = btoa(RESTRICTED_API_KEY + ":");
-                try {
-                    const response = await fetch("https://api.imagekit.io/v1/files?tags=meetup2026", {
-                        headers: { 'Authorization': `Basic ${b64Key}` }
-                    });
-                    const files = await response.json();
-                    grid.innerHTML = '';
-                    files.forEach(file => {
-                        const isVid = file.fileType === 'non-image' && file.mime.includes('video');
-                        addPhotoToGrid(file.url, isVid);
-                    });
-                } catch (err) {
-                    console.error("Gallery Load Fail:", err);
+            try {
+                // Step A: Get Signature from Cloudflare
+                const authResponse = await fetch(CLOUDFLARE_AUTH_ENDPOINT);
+                if (!authResponse.ok) throw new Error("Worker Auth Failed");
+                const authData = await authResponse.json();
+
+                status.innerText = "Beaming up... 🛸";
+
+                // Step B: Build the Form Data manually
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("fileName", file.name);
+                formData.append("publicKey", IK_PUBLIC_KEY);
+                formData.append("signature", authData.signature);
+                formData.append("expire", authData.expire);
+                formData.append("token", authData.token);
+                formData.append("tags", "meetup2026");
+
+                // Step C: Send directly to ImageKit API
+                const uploadResponse = await fetch(UPLOAD_API_URL, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await uploadResponse.json();
+
+                if (!uploadResponse.ok) {
+                    throw new Error(result.message || "Upload Server Error");
                 }
+
+                status.innerText = "Touchdown! Success.";
+                addPhotoToGrid(result.url, file.type.includes('video'));
+
+            } catch (err) {
+                console.error("Upload Error:", err);
+                status.innerText = "Error: " + err.message;
+            } finally {
+                uploadBtn.disabled = false;
             }
+        });
 
-            function addPhotoToGrid(url, isVideo = false) {
-                const div = document.createElement('div');
-                div.className = 'gallery-item';
-                const thumbUrl = isVideo ? url : `${url}?tr=w-600`;
-                div.innerHTML = isVideo ? `<video src="${url}" controls></video>` : `<img src="${thumbUrl}" loading="lazy">`;
-                grid.prepend(div);
-            }
-
-            uploadBtn.addEventListener('click', function() {
-                const file = fileInput.files[0];
-                if (!file) return alert("Select a file!");
-
-                uploadBtn.disabled = true;
-                status.innerText = "Authenticating... 🔑";
-
-                fetch(CLOUDFLARE_AUTH_ENDPOINT)
-                    .then(res => res.json())
-                    .then(authData => {
-                        status.innerText = "Beaming up... 🛸";
-                        imagekit.upload({
-                            file: file,
-                            fileName: file.name,
-                            tags: ["meetup2026"],
-                            token: authData.token,
-                            signature: authData.signature,
-                            expire: authData.expire
-                        }, function(err, result) {
-                            if (err) {
-                                status.innerText = "Error: " + err.message;
-                            } else {
-                                status.innerText = "Success! Media added.";
-                                addPhotoToGrid(result.url, file.type.includes('video'));
-                            }
-                            uploadBtn.disabled = false;
-                        });
-                    })
-                    .catch(err => {
-                        status.innerText = "Auth failed. Check Worker.";
-                        uploadBtn.disabled = false;
-                    });
-            });
-
-            loadGallery();
-        }, 500); // 0.5s delay to ensure script availability
+        // Initialize
+        loadGallery();
     </script>
 </body>
 </html>
