@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llama Memories - Wilmington 2026</title>
+    <style>
+        /* --- Base & Navigation Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            padding-top: 100px;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid #ff00ff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: #ffff00; text-shadow: 0 0 10px #ffff00; }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        /* --- Upload Portal --- */
+        .upload-card {
+            max-width: 600px;
+            margin: 0 auto 4rem auto;
+            padding: 2.5rem;
+            border: 3px solid #ff00ff;
+            border-radius: 25px;
+            text-align: center;
+            background: rgba(255, 0, 255, 0.05);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+        }
+
+        .upload-card h2 { color: #ffff00; margin-bottom: 1.5rem; text-transform: uppercase; }
+
+        input[type="file"] {
+            margin: 1rem 0;
+            color: #00ffff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Progress Bar Container */
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #111;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none; /* Hidden until upload starts */
+            border: 1px solid #333;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            box-shadow: 0 0 15px #00ffff;
+            transition: width 0.3s ease;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, #00ffff 0%, #ffff00 100%);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+        }
+
+        .upload-btn:disabled {
+            background: #444;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* --- Gallery Grid --- */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 5rem 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            height: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #333;
+            background: #111;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-msg { margin-top: 1.5rem; color: #00ffff; font-family: 'Arial', sans-serif; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="agreement.html">Agreement</a></li>
+            <li><a href="gallery.html" style="color:#ffff00;">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Llama Memories</h1>
+        <p style="color: #ff00ff; letter-spacing: 2px;">BEAM YOUR PHOTOS TO THE CLOUD 🛸</p>
+    </header>
+
+    <section class="upload-card">
+        <h2>Upload Portal</h2>
+        <input type="file" id="file-selector" accept="image/*,video/*">
+        
+        <div class="progress-container" id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+
+        <button id="upload-btn" class="upload-btn">Start Upload</button>
+        <div id="upload-status" class="status-msg">Waiting for file...</div>
+    </section>
+
+    <section class="gallery-container">
+        <div class="gallery-grid" id="gallery-grid">
+            </div>
+    </section>
+
+    <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+    <script>
+        // --- CONFIGURATION ---
+        const IK_PUBLIC_KEY = public_1ErPhSlplr1rBPQCe5DZtkYi+CY=;
+        const IK_URL_ENDPOINT = "https://ik.imagekit.io/atomsmasher101";
+        const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
+        const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg="; 
+
+        // 1. Initialize ImageKit
+        const imagekit = new ImageKit({
+            publicKey: IK_PUBLIC_KEY,
+            urlEndpoint: IK_URL_ENDPOINT,
+            authenticationEndpoint: CLOUDFLARE_AUTH_ENDPOINT,
+        });
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-selector');
+        const status = document.getElementById('upload-status');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const grid = document.getElementById('gallery-grid');
+
+        // 2. Fetch Gallery on Load
+        async function loadGallery() {
+            const b64Key = btoa(RESTRICTED_API_KEY + ":");
+            try {
+                const response = await fetch(`https://api.imagekit.io/v1/files?tags=meetup2026`, {
+                    headers: { 'Authorization': `Basic ${b64Key}` }
+                });
+                const files = await response.json();
+                grid.innerHTML = ''; 
+                files.forEach(file => {
+                    const isVideo = file.fileType === 'non-image' && file.mime.includes('video');
+                    addPhotoToGrid(file.url, isVideo);
+                });
+            } catch (err) {
+                status.innerText = "Error loading gallery.";
+                console.error(err);
+            }
+        }
+
+        // 3. UI Helper: Add Item to Grid
+        function addPhotoToGrid(url, isVideo = false) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            if(isVideo) {
+                div.innerHTML = `<video src="${url}" poster="${url}/ik-thumbnail.jpg" controls></video>`;
+            } else {
+                div.innerHTML = `<img src="${url}?tr=w-800" alt="Llama Meetup" loading="lazy">`;
+            }
+            grid.prepend(div); // Newest first
+        }
+
+        // 4. Handle Upload
+        uploadBtn.addEventListener('click', () => {
+            const file = fileInput.files[0];
+            if (!file) return alert("Select a file first, Llama!");
+
+            // Reset UI
+            status.innerText = "Beaming up... 🛸";
+            uploadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+
+            imagekit.upload({
+                file: file,
+                fileName: file.name,
+                tags: ["meetup2026"],
+                // This customizes the XHR request to track progress
+                xhr: function() {
+                    const xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            const percentComplete = (evt.loaded / evt.total) * 100;
+                            progressBar.style.width = percentComplete + '%';
+                            status.innerText = `Lifting off: ${Math.round(percentComplete)}%`;
+                        }
+                    }, false);
+                    return xhr;
+                }
+            }, function(err, result) {
+                if (err) {
+                    status.innerText = "Upload failed. Check Cloudflare Worker!";
+                    console.error(err);
+                } else {
+                    status.innerText = "Touchdown! Upload complete.";
+                    progressBar.style.width = '100%';
+                    const isVideo = file.type.includes('video');
+                    addPhotoToGrid(result.url, isVideo);
+                    setTimeout(() => { progressContainer.style.display = 'none'; }, 2000);
+                }
+                uploadBtn.disabled = false;
+            });
+        });
+
+        // Load gallery on startup
+        window.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+</body>
+</html>
