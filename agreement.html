@@ -5,325 +5,331 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llama Community Meetup Agreement</title>
     <style>
+        /* Shared Styles from Index */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
+            font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            background: #000;
+            color: #fff;
             line-height: 1.6;
-            color: #333;
+            padding-top: 80px; /* Space for nav */
         }
+
+        /* Navigation Sync */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid #ff00ff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* Container */
+        .agreement-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(26, 0, 26, 0.8);
+            border: 3px solid #ff00ff;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+
+        /* Headings */
         h1 {
+            font-size: 3rem;
             text-align: center;
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
+            background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
+
         h2 {
-            color: #2c3e50;
-            margin-top: 30px;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 5px;
+            color: #00ffff;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff00ff;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 1.8rem;
         }
+
         h3 {
-            color: #34495e;
-            margin-top: 20px;
+            color: #ffff00;
+            margin-top: 25px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
         }
+
         .header-info {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            color: #ffff00;
         }
+
+        /* Form Elements */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
+
         label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #2c3e50;
+            margin-bottom: 8px;
+            color: #00ffff;
+            font-size: 0.9rem;
         }
+
         input[type="text"],
         input[type="email"],
         input[type="tel"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #bdc3c7;
-            border-radius: 4px;
-            font-size: 14px;
-            box-sizing: border-box;
+            padding: 15px;
+            background: #000;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Arial', sans-serif; /* Cleaner font for typing */
+            font-size: 1rem;
         }
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus {
+
+        input:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
+
+        /* Informational Boxes */
         .payment-box {
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .important {
-            background-color: #fff3cd;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 15px 0;
-        }
-        ul {
-            margin: 10px 0;
-            padding-left: 25px;
-        }
-        li {
-            margin: 8px 0;
-        }
-        .checkbox-group {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #00ffff;
             margin: 20px 0;
         }
-        .checkbox-item {
-            display: flex;
-            align-items: flex-start;
+
+        .important {
+            background: rgba(255, 255, 0, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #ffff00;
+            margin: 20px 0;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+            font-family: 'Arial', sans-serif; /* Readability */
+            font-weight: 400;
+        }
+
+        li {
             margin: 10px 0;
         }
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 10px;
-            margin-top: 4px;
-            width: 18px;
-            height: 18px;
-        }
-        .checkbox-item label {
-            font-weight: normal;
-            margin-bottom: 0;
-        }
-        .signature-section {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #ecf0f1;
-        }
-        .signature-row {
+
+        /* Checkbox Styling */
+        .checkbox-item {
             display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
+            align-items: center;
+            background: rgba(255, 0, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #ff00ff;
         }
-        .signature-field {
-            flex: 1;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
+
+        .checkbox-item input {
+            width: 25px;
+            height: 25px;
+            margin-right: 15px;
             cursor: pointer;
+        }
+
+        .checkbox-item label {
+            color: #fff;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        /* Submit Button */
+        button {
+            display: block;
             width: 100%;
-            margin-top: 30px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #00ffff 0%, #ffff00 100%);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            margin-top: 40px;
+            letter-spacing: 2px;
         }
+
         button:hover {
-            background-color: #2980b9;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
         }
+
+        button:disabled {
+            background: #444;
+            cursor: not-allowed;
+        }
+
         hr {
             border: none;
-            border-top: 1px solid #ecf0f1;
-            margin: 30px 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff00ff, transparent);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .agreement-container { margin: 10px; padding: 20px; }
+            h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <h1>Llama Community Meetup Agreement</h1>
-<div class="header-info">
-    <h2>Wilmington, North Carolina</h2>
-    <p><strong>Effective Date:</strong> 02/06/2026</p>
-</div>
 
-<form id="meetupForm">
-    <h2>1. My/Our Information</h2>
-    
-    <div class="form-group">
-        <label for="names">Name/Couple Names *</label>
-        <input type="text" id="names" name="names" required>
+<nav>
+    <ul>
+        <li><a href="index.html">← Back to Home</a></li>
+        <li><a href="#meetupForm">Sign Agreement</a></li>
+    </ul>
+</nav>
+
+<div class="agreement-container">
+    <h1>Meetup Agreement</h1>
+    <div class="header-info">
+        <p>Wilmington, North Carolina</p>
+        <p><strong>Effective Date:</strong> 02/06/2026</p>
     </div>
 
-    <div class="form-group">
-        <label for="discord">Discord Username(s) *</label>
-        <input type="text" id="discord" name="discord" required>
-    </div>
-
-    <div class="form-group">
-        <label for="emergency_contact">Emergency Contact *</label>
-        <input type="text" id="emergency_contact" name="emergency_contact" required>
-    </div>
-
-    <div class="form-group">
-        <label for="emergency_phone">Emergency Contact Phone *</label>
-        <input type="tel" id="emergency_phone" name="emergency_phone" required>
-    </div>
-
-    <hr>
-
-    <h2>2. My/Our Payment Commitment</h2>
-
-    <h3>Payment Schedule</h3>
-    <p>I/We agree to make the following payments:</p>
-
-    <div class="payment-box">
-        <p><strong>First Payment (Due Now):</strong> $182.90</p>
-        <p><strong>Payment Method:</strong> PayPal Pool (managed by Zack Stroud)</p>
-    </div>
-
-    <div class="payment-box">
-        <p><strong>Second Payment (Due June 2026):</strong> $182.89</p>
-        <p><strong>Due Date:</strong> June 24, 2026 (or before)</p>
-        <p><strong>Payment Method:</strong> PayPal Pool (managed by Zack Stroud)</p>
-    </div>
-
-    <p><strong>My/Our Total Cost: $365.79</strong></p>
-
-    <h3>What My/Our Payment Covers:</h3>
-    <p>These payments cover accommodations only. The total cost is based on 6 estimated participants and is subject to change if the number of participants changes, as the rental cost is being split evenly among all attendees.</p>
-    
-    <p>I/We understand that I/we may be asked to contribute to group meals and shared activities later, which are not included in these payments.</p>
-
-    <h3>Cancellation Policy</h3>
-    <div class="important">
-        <p>I/We understand:</p>
-        <ul>
-            <li><strong>First Payment:</strong> This is a non-refundable deposit</li>
-            <li><strong>Second Payment:</strong> May be refunded if I/we cancel up to one week prior to June 24, 2026 (by June 17, 2026)</li>
-            <li>Cancellations made after June 17, 2026: No refund</li>
-            <li>No-shows: No refund</li>
-        </ul>
-    </div>
-
-    <hr>
-
-    <h2>3. My/Our Code of Conduct Commitment</h2>
-    <p>By signing this agreement, I/we commit to abiding by the following code of conduct:</p>
-
-    <h3>Respect and Inclusivity</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Treat all attendees with respect, kindness, and dignity</li>
-        <li>Respect personal boundaries and comfort levels</li>
-        <li>Be inclusive of all participants regardless of background, identity, or ability</li>
-        <li>Refrain from harassment, discrimination, or bullying of any kind</li>
-    </ul>
-
-    <h3>Communication</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Communicate openly and honestly with the group</li>
-        <li>Address conflicts directly and respectfully</li>
-        <li>Notify organizers immediately of any concerns or issues</li>
-        <li>Respect quiet hours and shared spaces</li>
-    </ul>
-
-    <h3>Shared Spaces</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Keep shared accommodations clean and tidy</li>
-        <li>Respect others' personal belongings</li>
-        <li>Follow house rules of any rental properties</li>
-        <li>Be mindful of noise levels, especially during late hours</li>
-    </ul>
-
-    <h3>Alcohol and Substances</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Follow all local laws regarding alcohol and substances</li>
-        <li>Drink responsibly if choosing to consume alcohol</li>
-        <li>Never pressure others to drink or participate in activities they're uncomfortable with</li>
-        <li>Not use illegal drugs</li>
-    </ul>
-
-    <h3>Safety</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Notify the group if leaving for extended periods</li>
-        <li>Use the buddy system when exploring unfamiliar areas</li>
-        <li>Follow all local laws and regulations</li>
-        <li>Report any safety concerns to organizers immediately</li>
-    </ul>
-
-    <h3>Shared Expenses</h3>
-    <p>I/We will:</p>
-    <ul>
-        <li>Pay agreed-upon contributions on time</li>
-        <li>Contribute fairly to group meals and activities</li>
-        <li>Communicate about additional shared expenses</li>
-    </ul>
-
-    <h3>Consequences</h3>
-    <p>I/We understand that violation of this code of conduct may result in:</p>
-    <ul>
-        <li>Warning from organizers</li>
-        <li>Requirement to leave the meetup without refund</li>
-        <li>Exclusion from future group events</li>
-    </ul>
-
-    <hr>
-
-    <h2>4. My/Our Acknowledgment of Liability</h2>
-    <p>I/We understand and acknowledge that:</p>
-    <ul>
-        <li>My/Our participation in this meetup is voluntary</li>
-        <li>I/We are responsible for my/our own safety and well-being</li>
-        <li>The organizers are not liable for injuries, losses, or damages</li>
-        <li>I/We have adequate health insurance coverage</li>
-        <li>I/We will follow all local laws and regulations in Wilmington, NC</li>
-    </ul>
-
-    <hr>
-
-    <h2>5. My/Our Agreement</h2>
-    
-    <div class="checkbox-group">
-        <div class="checkbox-item">
-            <input type="checkbox" id="agreement_check" name="agreement_check" required>
-            <label for="agreement_check">I/We have read, understood, and agree to all terms outlined in this agreement, including the payment schedule and code of conduct. *</label>
-        </div>
-    </div>
-
-    <div class="signature-section">
+    <form id="meetupForm">
+        <h2>1. Participant Info</h2>
+        
         <div class="form-group">
-            <label for="signature1">My/Our Signature (Type Full Name) *</label>
+            <label for="names">Name / Couple Names *</label>
+            <input type="text" id="names" name="names" required placeholder="Who is coming?">
+        </div>
+
+        <div class="form-group">
+            <label for="discord">Discord Username(s) *</label>
+            <input type="text" id="discord" name="discord" required placeholder="e.g. LlamaFan#1234">
+        </div>
+
+        <div class="form-group">
+            <label for="emergency_contact">Emergency Contact Name *</label>
+            <input type="text" id="emergency_contact" name="emergency_contact" required>
+        </div>
+
+        <div class="form-group">
+            <label for="emergency_phone">Emergency Contact Phone *</label>
+            <input type="tel" id="emergency_phone" name="emergency_phone" required>
+        </div>
+
+        <hr>
+
+        <h2>2. Payment Commitment</h2>
+        <p>Rental costs are split evenly among all attendees (Estimated for 6 participants).</p>
+
+        <div class="payment-box">
+            <p><strong>First Payment (Deposit):</strong> $182.90 — Due Now</p>
+            <p><strong>Second Payment:</strong> $182.89 — Due June 24, 2026</p>
+            <p><strong>Total Cost: $365.79</strong></p>
+        </div>
+
+        <h3>Cancellation Policy</h3>
+        <div class="important">
+            <ul>
+                <li><strong>First Payment:</strong> Non-refundable deposit.</li>
+                <li><strong>Second Payment:</strong> Refundable until June 17, 2026.</li>
+                <li><strong>After June 17:</strong> No refunds for cancellations or no-shows.</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h2>3. Code of Conduct</h2>
+        <p>We're here for a good time! By signing, you agree to:</p>
+        <ul>
+            <li>Treat everyone with respect and dignity.</li>
+            <li>Respect quiet hours and shared house rules.</li>
+            <li>Drink responsibly and follow all local laws.</li>
+            <li><strong>No illegal substances.</strong></li>
+            <li>Contribute fairly to group activities and cleaning.</li>
+        </ul>
+
+        <hr>
+
+        <h2>4. Liability</h2>
+        <div class="payment-box">
+            <p>Participation is voluntary. You are responsible for your own safety, health insurance, and personal belongings. Organizers are not liable for losses or damages.</p>
+        </div>
+
+        <hr>
+
+        <h2>5. Finalize</h2>
+        
+        <div class="checkbox-group">
+            <div class="checkbox-item">
+                <input type="checkbox" id="agreement_check" name="agreement_check" required>
+                <label for="agreement_check">I/We have read and agree to the terms, payment schedule, and code of conduct. *</label>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="signature1">Type Full Name (Digital Signature) *</label>
             <input type="text" id="signature1" name="signature1" required>
         </div>
 
         <div class="form-group">
-            <label for="date1">Date *</label>
-            <input type="text" id="date1" name="date1" required>
+            <label for="date1">Today's Date *</label>
+            <input type="text" id="date1" name="date1" required value="02/06/2026">
         </div>
 
-        <div class="form-group">
-            <label for="signature2">Couple/Second Participant Signature (if applicable)</label>
-            <input type="text" id="signature2" name="signature2">
-        </div>
-
-        <div class="form-group">
-            <label for="date2">Date (if applicable)</label>
-            <input type="text" id="date2" name="date2">
-        </div>
-    </div>
-
-    <button type="submit">Submit Agreement</button>
-</form>
+        <button type="submit">Submit Agreement</button>
+    </form>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-    // Initialize EmailJS with your public key
     (function() {
-        emailjs.init("pdHztMpEAGH3unfJw"); // Replace with your EmailJS public key
+        emailjs.init("pdHztMpEAGH3unfJw");
     })();
 
     document.getElementById('meetupForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const submitButton = document.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         submitButton.textContent = 'Submitting...';
         
-        // Collect form data
         const formData = new FormData(this);
         const templateParams = {
             names: formData.get('names'),
@@ -332,22 +338,17 @@
             emergency_phone: formData.get('emergency_phone'),
             signature1: formData.get('signature1'),
             date1: formData.get('date1'),
-            signature2: formData.get('signature2') || 'N/A',
-            date2: formData.get('date2') || 'N/A',
             submission_date: new Date().toLocaleString()
         };
         
-        // Send email using EmailJS
         emailjs.send('service_t4wpecc', 'template_jy7115z', templateParams)
             .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                alert('Agreement submitted successfully! A copy has been sent to the organizer.');
+                alert('Agreement submitted successfully!');
                 document.getElementById('meetupForm').reset();
                 submitButton.disabled = false;
                 submitButton.textContent = 'Submit Agreement';
             }, function(error) {
-                console.log('FAILED...', error);
-                alert('There was an error submitting the form. Please try again or contact the organizer directly.');
+                alert('Submission failed. Please try again.');
                 submitButton.disabled = false;
                 submitButton.textContent = 'Submit Agreement';
             });
