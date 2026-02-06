@@ -316,13 +316,34 @@
 
         <div class="form-group">
             <label for="date1">Today's Date *</label>
-            <input type="text" id="date1" name="date1" required value="02/06/2026">
+            <input type="text" id="date1" name="date1" required value="current-date">
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="signature1">Type Second Person Full Name (Digital Signature) *</label>
+            <input type="text" id="signature2" name="signature2" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date1">Today's Date *</label>
+            <input type="text" id="date2" name="date2" required value="current-date">
         </div>
 
         <button type="submit">Submit Agreement</button>
     </form>
 </div>
 
+<script>
+        // Get the current date
+        const today = new Date();
+
+        // Format the date to YYYY-MM-DD string
+        // The toISOString() method returns a string in UTC time, which is then split to get only the date part
+        const formattedDate = today.toISOString().split('T')[0];
+
+        // Set the value of the input field
+        document.getElementById('current-date').value = formattedDate;
+    </script>    
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
     (function() {
@@ -344,6 +365,8 @@
             emergency_phone: formData.get('emergency_phone'),
             signature1: formData.get('signature1'),
             date1: formData.get('date1'),
+            signature2: formData.get('signature2'),
+            date2: formData.get('date2'),
             submission_date: new Date().toLocaleString()
         };
         
