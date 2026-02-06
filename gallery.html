@@ -6,34 +6,71 @@
     <title>Llama Memories - Wilmington 2026</title>
     
     <style>
-        /* --- Cyber-Light Theme --- */
+        /* --- Base & Color Palette --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa; /* Light, clean background */
-            color: #2d3436;
-            padding-bottom: 120px; /* Space for the fixed upload bar */
+            font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            background: #fdfdfd; /* Off-white for comfort */
+            color: #1a1a1a;
+            padding-top: 100px; /* Space for fixed nav */
+            padding-bottom: 140px; /* Space for fixed upload bar */
         }
 
-        header {
-            background: #fff;
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 4px solid #00ffff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
+        /* --- Navigation (Light Mode Sync) --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9); /* Light translucent */
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 2px solid #ff00ff;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            color: #ff00ff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #00cccc; /* Darker cyan for readability on white */
+            text-decoration: none;
             font-weight: 900;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.5rem 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- Gallery Grid (Featured First) --- */
+        nav a:hover {
+            color: #ff00ff; /* Flips to pink */
+            transform: translateY(-2px);
+        }
+
+        /* --- Gallery Header --- */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        /* --- Gallery Grid --- */
         .gallery-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -42,23 +79,24 @@
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
         .gallery-item {
             aspect-ratio: 1 / 1;
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
             background: #fff;
-            border: 1px solid #dfe6e9;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            border: 2px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .gallery-item:hover {
-            transform: translateY(-5px);
+            transform: scale(1.02);
             border-color: #00ffff;
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.2);
         }
 
         .gallery-item img, .gallery-item video {
@@ -67,7 +105,7 @@
             object-fit: cover;
         }
 
-        /* --- Floating Upload Dialog (At the Bottom) --- */
+        /* --- Fixed Bottom Upload Dialog --- */
         .upload-panel {
             position: fixed;
             bottom: 0;
@@ -77,64 +115,68 @@
             backdrop-filter: blur(10px);
             border-top: 3px solid #ff00ff;
             padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             z-index: 1000;
-            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         .upload-controls {
             display: flex;
             align-items: center;
             gap: 15px;
-            flex-wrap: wrap;
             justify-content: center;
-        }
-
-        input[type="file"] {
-            background: #f1f2f6;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px dashed #b2bec3;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
         }
 
         .upload-btn {
-            padding: 12px 28px;
-            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
             color: #fff;
             border: none;
-            border-radius: 30px;
-            font-weight: bold;
+            border-radius: 50px;
+            font-weight: 900;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(255, 0, 255, 0.3);
-            transition: opacity 0.2s;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
         }
 
-        .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .upload-btn:disabled { opacity: 0.5; filter: grayscale(1); }
 
         .status-msg {
             margin-top: 10px;
-            font-size: 0.85rem;
-            color: #636e72;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
         }
 
-        /* --- Responsive Tweaks --- */
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.2rem; }
+            nav ul { gap: 0.5rem; }
+            nav a { font-size: 0.75rem; padding: 0.3rem 0.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Llama Memories 2026</h1>
-        <p style="color: #636e72; font-size: 0.9rem;">Wilmington Meetup Gallery</p>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#info">Trip Info</a></li>
+            <li><a href="index.html#houses">Houses</a></li>
+            <li><a href="index.html#competition">Competition</a></li>
+            <li><a href="agreement.html">Sign Agreement</a></li>
+            <li><a href="gallery.html" style="color:#ff00ff;">Photo Gallery</a></li>
+            <li><a href="merch.html">Get Merch</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Llama Memories</h1>
+        <p style="font-weight: bold; color: #00cccc;">WILMINGTON • 2026</p>
+    </div>
 
     <main class="gallery-container">
         <div class="gallery-grid" id="gallery-grid">
@@ -144,12 +186,13 @@
     <section class="upload-panel">
         <div class="upload-controls">
             <input type="file" id="file-selector" accept="image/*,video/*">
-            <button id="upload-btn" class="upload-btn">Add to Gallery 📸</button>
+            <button id="upload-btn" class="upload-btn">Beam Up Media 🛸</button>
         </div>
-        <div id="upload-status" class="status-msg">Share your favorite moments!</div>
+        <div id="upload-status" class="status-msg">Share the fun with the herd!</div>
     </section>
 
     <script>
+        // --- API CONFIG ---
         const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
         const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
         const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg=";
@@ -160,7 +203,7 @@
         const status = document.getElementById('upload-status');
         const grid = document.getElementById('gallery-grid');
 
-        // Gallery Loader
+        // Loader
         async function loadGallery() {
             const b64Key = btoa(RESTRICTED_API_KEY + ":");
             try {
@@ -174,35 +217,33 @@
                     addPhotoToGrid(file.url, isVid);
                 });
             } catch (err) {
-                console.error("Gallery Load Fail:", err);
-                status.innerText = "Gallery failed to load.";
+                status.innerText = "Gallery offline.";
             }
         }
 
         function addPhotoToGrid(url, isVideo = false) {
             const div = document.createElement('div');
             div.className = 'gallery-item';
-            // Using a square transformation for a clean grid look
-            const thumbUrl = isVideo ? url : `${url}?tr=w-400,h-400,fo-auto`;
+            const thumbUrl = isVideo ? url : `${url}?tr=w-500,h-500,fo-auto`;
             div.innerHTML = isVideo 
                 ? `<video src="${url}" muted onmouseover="this.play()" onmouseout="this.pause()" loop></video>` 
                 : `<img src="${thumbUrl}" loading="lazy">`;
             grid.prepend(div);
         }
 
-        // Manual Upload Logic
+        // Upload Logic
         uploadBtn.addEventListener('click', async function() {
             const file = fileInput.files[0];
-            if (!file) return alert("Select a file first!");
+            if (!file) return alert("Pick a photo or video first!");
 
             uploadBtn.disabled = true;
-            status.innerText = "Processing... ⚙️";
+            status.innerText = "Requesting Clearance... 🔑";
 
             try {
                 const authResponse = await fetch(CLOUDFLARE_AUTH_ENDPOINT);
                 const authData = await authResponse.json();
 
-                status.innerText = "Uploading to Cloud... 🛸";
+                status.innerText = "Beaming Up... 🛸";
 
                 const formData = new FormData();
                 formData.append("file", file);
@@ -221,12 +262,11 @@
                 const result = await uploadResponse.json();
                 if (!uploadResponse.ok) throw new Error(result.message);
 
-                status.innerText = "Success! Uploaded to gallery.";
+                status.innerText = "Touchdown! Added to the herd.";
                 addPhotoToGrid(result.url, file.type.includes('video'));
-                fileInput.value = ""; // Clear input
+                fileInput.value = ""; 
 
             } catch (err) {
-                console.error("Upload Error:", err);
                 status.innerText = "Error: " + err.message;
             } finally {
                 uploadBtn.disabled = false;
