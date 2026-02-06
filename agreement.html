@@ -217,12 +217,25 @@
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li><a href="index.html">← Back to Home</a></li>
-        <li><a href="#meetupForm">Sign Agreement</a></li>
-    </ul>
-</nav>
+<div id="nav-placeholder"></div>
+
+<script>
+    // Fetch and inject the navigation
+    fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('nav-placeholder').innerHTML = data;
+            
+            // Highlight the active link based on the current filename
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.style.color = '#ffff00'; // Yellow for active page
+                }
+            });
+        });
+</script>
 
 <div class="agreement-container">
     <h1>Meetup Agreement</h1>
