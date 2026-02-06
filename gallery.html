@@ -161,17 +161,25 @@
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#info">Trip Info</a></li>
-            <li><a href="index.html#houses">Houses</a></li>
-            <li><a href="index.html#competition">Competition</a></li>
-            <li><a href="agreement.html">Sign Agreement</a></li>
-            <li><a href="gallery.html" style="color:#ff00ff;">Photo Gallery</a></li>
-            <li><a href="merch.html">Get Merch</a></li>
-        </ul>
-    </nav>
+    <div id="nav-placeholder"></div>
+
+<script>
+    // Fetch and inject the navigation
+    fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('nav-placeholder').innerHTML = data;
+            
+            // Highlight the active link based on the current filename
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.style.color = '#ffff00'; // Yellow for active page
+                }
+            });
+        });
+</script>
 
     <div class="page-header">
         <h1>Llama Memories</h1>
