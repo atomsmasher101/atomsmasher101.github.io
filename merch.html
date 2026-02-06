@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merch Drop | Llama Trip 2024</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        .merch-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a001a 0%, #000 100%);
+            padding: 2rem;
+            margin-top: 60px; /* Space for the fixed nav */
+        }
+
+        .drop-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            font-style: italic;
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffff00;
+        }
+
+        .countdown-label {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #00ffff;
+        }
+
+        .merch-teaser {
+            max-width: 600px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            color: #ccc;
+        }
+
+        .notify-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+
+        .notify-box input {
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            width: 250px;
+            background: #111;
+            color: white;
+            border: 1px solid #444;
+        }
+
+        .notify-btn {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            color: #000;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: transform 0.2s;
+        }
+
+        .notify-btn:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        @media (max-width: 768px) {
+            .countdown-container { gap: 1rem; }
+            .countdown-number { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="nav-placeholder"></div>
+
+    <section class="merch-hero">
+        <h1 class="drop-title">THE DROP IS<br>COMING.</h1>
+        
+        <div class="countdown-container">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="mins">00</span>
+                <span class="countdown-label">Mins</span>
+            </div>
+        </div>
+
+        <p class="merch-teaser">
+            Limited edition Llama Trip '24 gear. Hoodies, tees, and exclusive llama accessories. 
+            Once they're gone, they're gone forever.
+        </p>
+
+        <div class="notify-box">
+            <h3>DON'T MISS THE RELEASE</h3>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" class="notify-btn">Get Early Access</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('nav-placeholder').innerHTML = data;
+            });
+
+        // Simple Countdown Logic
+        const dropDate = new Date("March 1, 2024 00:00:00").getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = dropDate - now;
+
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+    </script>
+</body>
+</html>
