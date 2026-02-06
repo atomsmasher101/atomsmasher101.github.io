@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llama Community Meetup - Wilmington 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(255, 0, 255, 0.3);
+            border-bottom: 2px solid #ff00ff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: #ffff00;
+            text-shadow: 0 0 10px #ffff00;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #ff00ff 0%, #ff1493 50%, #9400d3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '🦙';
+            position: absolute;
+            font-size: 25rem;
+            opacity: 0.05;
+            animation: float 6s ease-in-out infinite;
+            filter: blur(2px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            text-shadow: 
+                3px 3px 0px #00ffff,
+                6px 6px 0px rgba(0, 255, 255, 0.5),
+                0 0 30px #ff00ff;
+            animation: slideDown 1s ease-out;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.2;
+        }
+
+        .hero .emoji {
+            font-size: 6rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px #00ffff);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 900;
+            color: #ffff00;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #00ffff 0%, #ffff00 100%);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            box-shadow: 
+                0 4px 15px rgba(0, 255, 255, 0.4),
+                0 0 30px rgba(255, 0, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 6px 25px rgba(0, 255, 255, 0.6),
+                0 0 40px rgba(255, 255, 0, 0.5);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Trip Info */
+        .trip-info {
+            background: #000;
+            position: relative;
+        }
+
+        .trip-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 200% 100%;
+            animation: gradientShift 3s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2) 0%, rgba(148, 0, 211, 0.2) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 8px 25px rgba(255, 0, 255, 0.3);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .info-card:hover::before {
+            left: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 
+                0 12px 35px rgba(255, 0, 255, 0.4),
+                0 0 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .info-card h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .info-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            filter: drop-shadow(0 0 10px #ffff00);
+        }
+
+        .info-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .info-card strong {
+            color: #ffff00;
+        }
+
+        /* Houses Section */
+        .houses {
+            background: linear-gradient(180deg, #000 0%, #1a001a 100%);
+            position: relative;
+        }
+
+        .houses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .house-card {
+            background: #000;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(255, 0, 255, 0.3);
+            transition: all 0.3s;
+            border: 3px solid;
+            position: relative;
+        }
+
+        .house-card::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background-size: 300% 300%;
+            animation: gradientRotate 3s linear infinite;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .house-card:hover::before {
+            opacity: 1;
+        }
+
+        .house-card:hover {
+            transform: scale(1.03);
+            box-shadow: 
+                0 20px 50px rgba(255, 0, 255, 0.5),
+                0 0 60px rgba(0, 255, 255, 0.3);
+        }
+
+        .house-card.house-a {
+            border-color: #ff00ff;
+        }
+
+        .house-card.house-b {
+            border-color: #00ffff;
+        }
+
+        .house-header {
+            padding: 2.5rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .house-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+        }
+
+        .house-a .house-header {
+            background: linear-gradient(135deg, #ff00ff 0%, #ff1493 100%);
+        }
+
+        .house-b .house-header {
+            background: linear-gradient(135deg, #00ffff 0%, #0088ff 100%);
+        }
+
+        .house-header h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .house-header p {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .house-body {
+            padding: 2.5rem;
+            background: rgba(255, 0, 255, 0.05);
+        }
+
+        .house-body p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .house-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
+        }
+
+        .house-link:hover {
+            transform: translateX(10px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Competition Section */
+        .competition {
+            background: linear-gradient(135deg, #ff00ff 0%, #9400d3 50%, #00ffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .competition::before {
+            content: '🎮🎤🏆';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.05;
+            right: -5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .competition h2 {
+            color: #ffff00;
+            text-shadow: 
+                3px 3px 0px #000,
+                0 0 30px rgba(255, 255, 0, 0.8);
+            -webkit-text-fill-color: #ffff00;
+        }
+
+        .competition > p {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .competition-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: scale(1.05) rotate(-2deg);
+            border-color: #ffff00;
+            box-shadow: 
+                0 12px 35px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(255, 255, 0, 0.5);
+        }
+
+        .feature .icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px #ffff00);
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffff00;
+        }
+
+        .feature p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 3px solid #ff00ff;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 200% 100%;
+            animation: gradientShift 3s linear infinite;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        footer strong {
+            color: #ff00ff;
+            font-size: 1.3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .houses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+            
+            .hero .emoji {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#info">Trip Info</a></li>
+            <li><a href="#houses">Houses</a></li>
+            <li><a href="#competition">Competition</a></li>
+            <li><a href="agreement.html">Sign Agreement</a></li>
+            <li><a href="gallery.html">Photo Gallery</a></li>
+            <li><a href="merch.html">Get Merch</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="emoji">🦙</span>
+            <h1>Llama Community Meetup</h1>
+            <p>Wilmington, NC • June 24-28, 2026</p>
+            <a href="agreement.html" class="cta-button">Join the Adventure!</a>
+        </div>
+    </section>
+
+    <!-- Trip Info -->
+    <section class="trip-info" id="info">
+        <h2>What to Expect</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <span class="icon">📍</span>
+                <h3>Location</h3>
+                <p>Historic downtown Wilmington, NC - just steps from the Cape Fear Riverwalk and vibrant downtown scene!</p>
+                <p><strong>905 Walnut St, Wilmington, NC 28401</strong></p>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🏠</span>
+                <h3>Accommodations</h3>
+                <p>Two beautiful houses side-by-side, creating the perfect setup for our house vs house competition!</p>
+                <p><strong>Based on 6 participants</strong></p>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🗓️</span>
+                <h3>Dates</h3>
+                <p>June 24-28, 2026</p>
+                <p>4 nights of llama-tastic fun and friendship!</p>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🎤</span>
+                <h3>Karaoke Night</h3>
+                <p>Bring your best vocals (or just your enthusiasm) for an epic karaoke showdown!</p>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🎮</span>
+                <h3>Gaming Challenges</h3>
+                <p>Video game tournaments and party games to determine the ultimate champion house!</p>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🏆</span>
+                <h3>House Competition</h3>
+                <p>Compete in various challenges throughout the trip. May the best house win bragging rights!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Houses Section -->
+    <section class="houses" id="houses">
+        <h2>Meet Your Home Base</h2>
+        <div class="houses-grid">
+            <div class="house-card house-a">
+                <div class="house-header">
+                    <h3>🦙 House A</h3>
+                    <p>Team TBD</p>
+                </div>
+                <div class="house-body">
+                    <p><strong>Location:</strong> 905 Walnut St (Unit A)</p>
+                    <p>Your cozy home away from home in historic Wilmington. Modern amenities meet downtown charm!</p>
+                    <a href="https://www.airbnb.com/rooms/869498961852746437" target="_blank" class="house-link">View Listing →</a>
+                </div>
+            </div>
+
+            <div class="house-card house-b">
+                <div class="house-header">
+                    <h3>🦙 House B</h3>
+                    <p>Team TBD</p>
+                </div>
+                <div class="house-body">
+                    <p><strong>Location:</strong> 905 Walnut St (Unit B)</p>
+                    <p>Right next door to House A - perfect for friendly competition and late-night hangouts!</p>
+                    <a href="https://www.airbnb.com/rooms/869500486520368451" target="_blank" class="house-link">View Listing →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition Section -->
+    <section class="competition" id="competition">
+        <h2>The Great House Competition</h2>
+        <p>House A vs House B - Let the games begin!</p>
+        <div class="competition-features">
+            <div class="feature">
+                <span class="icon">🎮</span>
+                <h3>Video Game Battles</h3>
+                <p>Tournament-style gaming competitions across multiple titles</p>
+            </div>
+
+            <div class="feature">
+                <span class="icon">🎲</span>
+                <h3>Party Games</h3>
+                <p>Board games, card games, and classic party challenges</p>
+            </div>
+
+            <div class="feature">
+                <span class="icon">🎤</span>
+                <h3>Karaoke Showdown</h3>
+                <p>Singing competitions judged by style, enthusiasm, and crowd energy!</p>
+            </div>
+
+            <div class="feature">
+                <span class="icon">🏆</span>
+                <h3>Championship Trophy</h3>
+                <p>Points tracked throughout the trip - winner takes all the glory!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Llama Community Meetup 2026</strong></p>
+        <p>Wilmington, North Carolina • June 24-28</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">Made with 🦙 and ❤️</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
