@@ -80,4 +80,27 @@
         .nav-container { flex-direction: column; gap: 0.4rem; }
         .nav-links { gap: 0.3rem; flex-wrap: wrap; justify-content: center; }
     }
+
+    /* This targets the body of whatever page the nav is loaded into */
+:root {
+    --nav-height: 80px;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 120px; /* Taller for mobile stacking */
+    }
+}
+
+html {
+    /* Pushes the content down so it doesn't hide under the nav */
+    padding-top: var(--nav-height);
+    /* Ensures jumping to #sections doesn't hide the title under the nav */
+    scroll-behavior: smooth;
+}
+
+section {
+    scroll-margin-top: var(--nav-height);
+}
+    
 </style>
