@@ -260,36 +260,33 @@
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
 
-            imagekit.upload({
-                file: file,
-                fileName: file.name,
-                tags: ["meetup2026"],
-                // This customizes the XHR request to track progress
-                xhr: function() {
-                    const xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            const percentComplete = (evt.loaded / evt.total) * 100;
-                            progressBar.style.width = percentComplete + '%';
-                            status.innerText = `Lifting off: ${Math.round(percentComplete)}%`;
+            // Manually fetch the auth first to see if it's actually working
+            console.log("Fetching auth from Worker...");
+            fetch(CLOUDFLARE_AUTH_ENDPOINT)
+                .then(res => res.json())
+                .then(authData => {
+                    console.log("Auth received:", authData);
+                    
+                    imagekit.upload({
+                        file: file,
+                        fileName: file.name,
+                        tags: ["meetup2026"],
+                        token: authData.token,         // Manually passing the token
+                        signature: authData.signature, // Manually passing the signature
+                        expire: authData.expire,       // Manually passing the expire
+                        xhr: function() {
+                            const xhr = new window.XMLHttpRequest();
+                            // ... (keep your existing progress bar code here)
+                            return xhr;
                         }
-                    }, false);
-                    return xhr;
-                }
-            }, function(err, result) {
-                if (err) {
-                    status.innerText = "Upload failed. Check Cloudflare Worker!";
-                    console.error(err);
-                } else {
-                    status.innerText = "Touchdown! Upload complete.";
-                    progressBar.style.width = '100%';
-                    const isVideo = file.type.includes('video');
-                    addPhotoToGrid(result.url, isVideo);
-                    setTimeout(() => { progressContainer.style.display = 'none'; }, 2000);
-                }
-                uploadBtn.disabled = false;
-            });
-        });
+                    }, function(err, result) {
+                        // ... (keep your existing callback code)
+                    });
+                })
+                .catch(err => {
+                    console.error("Manual Auth Fetch Failed:", err);
+                    status.innerText = "Auth Fetch Failed. See Console.";
+                });
 
         // Load gallery on startup
         window.addEventListener('DOMContentLoaded', loadGallery);
