@@ -73,7 +73,7 @@
         <div class="gallery-grid" id="gallery-grid"></div>
     </section>
 
-    <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/imagekit-javascript@1.5.9/dist/imagekit.min.js"></script>
     <script>
         // --- SETTINGS ---
         const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
@@ -146,32 +146,18 @@
                     });
         
                     console.log("5. Initializing ImageKit.upload...");
-                    
-                    // We use a try/catch specifically around the SDK call
-                    try {
                         imagekit.upload({
                             file: file,
                             fileName: file.name,
                             tags: ["meetup2026"],
                             token: authData.token,
                             signature: authData.signature,
-                            expire: authData.expire,
-                            xhr: function() {
-                                console.log("6. SDK requested XHR object. Creating...");
-                                const xhr = new XMLHttpRequest();
-                                xhr.upload.onprogress = function(evt) {
-                                    if (evt.lengthComputable) {
-                                        const p = (evt.loaded / evt.total) * 100;
-                                        progressBar.style.width = p + '%';
-                                        status.innerText = `Lifting off: ${Math.round(p)}%`;
-                                    }
-                                };
-                                return xhr;
-                            }
+                            expire: authData.expire
+                            // WE REMOVED THE XHR BLOCK TEMPORARILY
                         }, function(err, result) {
                             if (err) {
                                 console.error("❌ SDK Callback Error:", err);
-                                status.innerText = "Upload failed. See console.";
+                                status.innerText = "Upload failed: " + err.message;
                             } else {
                                 console.log("✅ SDK Success:", result);
                                 status.innerText = "Touchdown!";
