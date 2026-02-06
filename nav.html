@@ -1,0 +1,52 @@
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#info">Trip Info</a></li>
+        <li><a href="index.html#houses">Houses</a></li>
+        <li><a href="index.html#competition">Competition</a></li>
+        <li><a href="agreement.html">Sign Agreement</a></li>
+        <li><a href="gallery.html">Photo Gallery</a></li>
+        <li><a href="merch.html">Get Merch</a></li>
+    </ul>
+</nav>
+
+<style>
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        z-index: 1000;
+        border-bottom: 2px solid #ff00ff;
+        box-shadow: 0 2px 20px rgba(255, 0, 255, 0.2);
+    }
+    nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+    nav a {
+        color: #00ffff;
+        text-decoration: none;
+        font-weight: 900;
+        font-size: 1rem;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    nav a:hover {
+        color: #ff00ff;
+        text-shadow: 0 0 8px #ff00ff;
+        transform: translateY(-2px);
+    }
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+        nav { padding: 0.8rem 1rem; }
+        nav ul { gap: 1rem; }
+        nav a { font-size: 0.8rem; }
+    }
+</style>
