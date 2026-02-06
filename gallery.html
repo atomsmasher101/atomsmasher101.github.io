@@ -251,43 +251,45 @@
 
         // 4. Handle Upload
         uploadBtn.addEventListener('click', () => {
-            const file = fileInput.files[0];
-            if (!file) return alert("Select a file first, Llama!");
-
-            // Reset UI
-            status.innerText = "Beaming up... 🛸";
-            uploadBtn.disabled = true;
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '0%';
-
-            // Manually fetch the auth first to see if it's actually working
-            console.log("Fetching auth from Worker...");
-            fetch(CLOUDFLARE_AUTH_ENDPOINT)
-                .then(res => res.json())
-                .then(authData => {
-                    console.log("Auth received:", authData);
-                    
-                    imagekit.upload({
-                        file: file,
-                        fileName: file.name,
-                        tags: ["meetup2026"],
-                        token: authData.token,         // Manually passing the token
-                        signature: authData.signature, // Manually passing the signature
-                        expire: authData.expire,       // Manually passing the expire
-                        xhr: function() {
-                            const xhr = new window.XMLHttpRequest();
-                            // ... (keep your existing progress bar code here)
-                            return xhr;
-                        }
-                    }, function(err, result) {
-                        // ... (keep your existing callback code)
-                    });
-                })
-                .catch(err => {
-                    console.error("Manual Auth Fetch Failed:", err);
-                    status.innerText = "Auth Fetch Failed. See Console.";
-                });
+        const file = fileInput.files[0];
+        if (!file) return alert("Select a file first!");
+    
+        status.innerText = "Beaming up... 🛸";
+        uploadBtn.disabled = true;
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
+    
+        imagekit.upload({
+            file: file,
+            fileName: file.name,
+            tags: ["meetup2026"],
+            // Remove the manual token/signature/expire lines if they are here
+            // The SDK will use the authenticationEndpoint we defined at the top
+            xhr: function() {
+                const xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        const percentComplete = (evt.loaded / evt.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                        status.innerText = `Lifting off: ${Math.round(percentComplete)}%`;
+                    }
+                }, false);
+                return xhr;
+            }
+        }, function(err, result) {
+            if (err) {
+                console.error("Upload Error Details:", err);
+                status.innerText = "Upload failed. Check Console.";
+            } else {
+                status.innerText = "Touchdown! Upload complete.";
+                progressBar.style.width = '100%';
+                const isVideo = file.type.includes('video');
+                addPhotoToGrid(result.url, isVideo);
+                setTimeout(() => { progressContainer.style.display = 'none'; }, 2000);
+            }
+            uploadBtn.disabled = false;
         });
+    });
         // Load gallery on startup
         window.addEventListener('DOMContentLoaded', loadGallery);
     </script>
