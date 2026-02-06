@@ -413,6 +413,25 @@
             box-shadow: 0 6px 25px rgba(0, 255, 255, 0.5);
         }
 
+        /* New Image Styling for House Cards */
+        .house-image {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .house-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the photo fills the space without stretching */
+            transition: transform 0.5s ease;
+        }
+        
+        .house-card:hover .house-image img {
+            transform: scale(1.1); /* Subtle zoom on hover */
+        }
+
         /* Competition Section */
         .competition {
             background: linear-gradient(135deg, #ff00ff 0%, #9400d3 50%, #00ffff 100%);
@@ -652,7 +671,11 @@
     <section class="houses" id="houses">
         <h2>Meet Your Home Base</h2>
         <div class="houses-grid">
+            
             <div class="house-card house-a">
+                <div class="house-image">
+                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-869500486520368451/original/496cf59a-6a8b-4b1c-bc91-33fdbd8d2e7f.jpeg?aki_policy=xx_large" alt="House A Exterior">
+                </div>
                 <div class="house-header">
                     <h3>🦙 House A</h3>
                     <p>Team TBD</p>
@@ -663,8 +686,11 @@
                     <a href="https://www.airbnb.com/rooms/869498961852746437" target="_blank" class="house-link">View Listing →</a>
                 </div>
             </div>
-
+    
             <div class="house-card house-b">
+                <div class="house-image">
+                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-869498961852746437/original/f233641d-9ca6-4114-8cbb-d84a288bf1c9.jpeg?aki_policy=xx_large" alt="House B Exterior">
+                </div>
                 <div class="house-header">
                     <h3>🦙 House B</h3>
                     <p>Team TBD</p>
@@ -675,6 +701,7 @@
                     <a href="https://www.airbnb.com/rooms/869500486520368451" target="_blank" class="house-link">View Listing →</a>
                 </div>
             </div>
+            
         </div>
     </section>
 
