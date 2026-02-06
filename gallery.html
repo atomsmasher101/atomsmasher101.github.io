@@ -6,70 +6,153 @@
     <title>Llama Memories - Wilmington 2026</title>
     
     <style>
+        /* --- Cyber-Light Theme --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Arial Black', sans-serif;
-            background: #000;
-            color: #fff;
-            padding-top: 100px;
-        }
-        nav {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem; z-index: 1000;
-            border-bottom: 2px solid #ff00ff;
-            text-align: center;
-        }
-        nav a { color: #00ffff; text-decoration: none; margin: 0 15px; font-weight: 900; text-transform: uppercase; }
         
-        .upload-card {
-            max-width: 500px; margin: 0 auto 3rem auto; padding: 2rem;
-            border: 2px solid #ff00ff; border-radius: 15px; text-align: center;
-            background: #111; box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa; /* Light, clean background */
+            color: #2d3436;
+            padding-bottom: 120px; /* Space for the fixed upload bar */
         }
-        .upload-btn {
-            padding: 12px 24px; background: #00ffff; color: #000;
-            border: none; border-radius: 25px; font-weight: 900;
-            cursor: pointer; margin-top: 15px; text-transform: uppercase;
+
+        header {
+            background: #fff;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 4px solid #00ffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
-        .upload-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #ff00ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        /* --- Gallery Grid (Featured First) --- */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
         .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
         }
-        .gallery-item { height: 300px; border-radius: 10px; overflow: hidden; background: #222; border: 1px solid #333; }
-        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; }
-        .status-msg { margin-top: 10px; color: #ffff00; font-size: 0.9rem; font-family: sans-serif; }
+
+        .gallery-item {
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #dfe6e9;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: #00ffff;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Floating Upload Dialog (At the Bottom) --- */
+        .upload-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 3px solid #ff00ff;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+
+        .upload-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="file"] {
+            background: #f1f2f6;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px dashed #b2bec3;
+            font-size: 0.9rem;
+        }
+
+        .upload-btn {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(255, 0, 255, 0.3);
+            transition: opacity 0.2s;
+        }
+
+        .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .status-msg {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #636e72;
+            font-weight: 600;
+        }
+
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="gallery.html">Gallery</a>
-    </nav>
-
-    <header style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="color: #ff00ff; text-transform: uppercase;">Llama Memories</h1>
+    <header>
+        <h1>Llama Memories 2026</h1>
+        <p style="color: #636e72; font-size: 0.9rem;">Wilmington Meetup Gallery</p>
     </header>
 
-    <section class="upload-card">
-        <h2 style="color:#ff00ff; margin-bottom:15px; font-size: 1.2rem;">SUBMIT MEDIA</h2>
-        <input type="file" id="file-selector" accept="image/*,video/*">
-        <br>
-        <button id="upload-btn" class="upload-btn">BEAM UP 🛸</button>
-        <div id="upload-status" class="status-msg">Waiting for file...</div>
+    <main class="gallery-container">
+        <div class="gallery-grid" id="gallery-grid">
+            </div>
+    </main>
+
+    <section class="upload-panel">
+        <div class="upload-controls">
+            <input type="file" id="file-selector" accept="image/*,video/*">
+            <button id="upload-btn" class="upload-btn">Add to Gallery 📸</button>
+        </div>
+        <div id="upload-status" class="status-msg">Share your favorite moments!</div>
     </section>
 
-    <div class="gallery-grid" id="gallery-grid"></div>
-
     <script>
-        // --- CONFIGURATION ---
         const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
         const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
         const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg=";
-        // Direct API endpoint for uploads (Bypassing SDK)
         const UPLOAD_API_URL = "https://upload.imagekit.io/api/v1/files/upload";
 
         const uploadBtn = document.getElementById('upload-btn');
@@ -77,7 +160,7 @@
         const status = document.getElementById('upload-status');
         const grid = document.getElementById('gallery-grid');
 
-        // 1. Gallery Loader
+        // Gallery Loader
         async function loadGallery() {
             const b64Key = btoa(RESTRICTED_API_KEY + ":");
             try {
@@ -99,28 +182,28 @@
         function addPhotoToGrid(url, isVideo = false) {
             const div = document.createElement('div');
             div.className = 'gallery-item';
-            const thumbUrl = isVideo ? url : `${url}?tr=w-600`;
-            div.innerHTML = isVideo ? `<video src="${url}" controls></video>` : `<img src="${thumbUrl}" loading="lazy">`;
+            // Using a square transformation for a clean grid look
+            const thumbUrl = isVideo ? url : `${url}?tr=w-400,h-400,fo-auto`;
+            div.innerHTML = isVideo 
+                ? `<video src="${url}" muted onmouseover="this.play()" onmouseout="this.pause()" loop></video>` 
+                : `<img src="${thumbUrl}" loading="lazy">`;
             grid.prepend(div);
         }
 
-        // 2. THE MANUAL UPLOAD FUNCTION (No SDK!)
+        // Manual Upload Logic
         uploadBtn.addEventListener('click', async function() {
             const file = fileInput.files[0];
-            if (!file) return alert("Select a file!");
+            if (!file) return alert("Select a file first!");
 
             uploadBtn.disabled = true;
-            status.innerText = "Getting permission... 🔑";
+            status.innerText = "Processing... ⚙️";
 
             try {
-                // Step A: Get Signature from Cloudflare
                 const authResponse = await fetch(CLOUDFLARE_AUTH_ENDPOINT);
-                if (!authResponse.ok) throw new Error("Worker Auth Failed");
                 const authData = await authResponse.json();
 
-                status.innerText = "Beaming up... 🛸";
+                status.innerText = "Uploading to Cloud... 🛸";
 
-                // Step B: Build the Form Data manually
                 const formData = new FormData();
                 formData.append("file", file);
                 formData.append("fileName", file.name);
@@ -130,20 +213,17 @@
                 formData.append("token", authData.token);
                 formData.append("tags", "meetup2026");
 
-                // Step C: Send directly to ImageKit API
                 const uploadResponse = await fetch(UPLOAD_API_URL, {
                     method: "POST",
                     body: formData
                 });
 
                 const result = await uploadResponse.json();
+                if (!uploadResponse.ok) throw new Error(result.message);
 
-                if (!uploadResponse.ok) {
-                    throw new Error(result.message || "Upload Server Error");
-                }
-
-                status.innerText = "Touchdown! Success.";
+                status.innerText = "Success! Uploaded to gallery.";
                 addPhotoToGrid(result.url, file.type.includes('video'));
+                fileInput.value = ""; // Clear input
 
             } catch (err) {
                 console.error("Upload Error:", err);
@@ -153,7 +233,6 @@
             }
         });
 
-        // Initialize
         loadGallery();
     </script>
 </body>
