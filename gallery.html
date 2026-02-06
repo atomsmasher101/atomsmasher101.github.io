@@ -124,54 +124,72 @@
             const file = fileInput.files[0];
             if (!file) return alert("Please select a file.");
         
+            console.group("🚀 Llama Upload Trace");
+            console.log("1. File selected:", file.name, `(${file.size} bytes)`);
+            
             uploadBtn.disabled = true;
-            status.innerText = "Requesting Auth... 🔑";
+            status.innerText = "Trace started... 🔍";
         
+            // Trace Authentication
+            console.log("2. Contacting Cloudflare Worker...");
             fetch(CLOUDFLARE_AUTH_ENDPOINT)
-                .then(response => response.json())
+                .then(response => {
+                    console.log("3. Worker Response Status:", response.status);
+                    if (!response.ok) throw new Error(`Worker HTTP ${response.status}`);
+                    return response.json();
+                })
                 .then(authData => {
-                    progressContainer.style.display = 'block';
-                    progressBar.style.width = '0%';
-                    status.innerText = "Beaming up... 🛸";
-        
-                    imagekit.upload({
-                        file: file,
-                        fileName: file.name,
-                        tags: ["meetup2026"],
-                        token: authData.token,
-                        signature: authData.signature,
-                        expire: authData.expire,
-                        // --- CRITICAL FIX START ---
-                        xhr: function() {
-                            const xhr = new XMLHttpRequest();
-                            // We attach the listener directly to the upload property
-                            xhr.upload.onprogress = function(evt) {
-                                if (evt.lengthComputable) {
-                                    const p = (evt.loaded / evt.total) * 100;
-                                    progressBar.style.width = p + '%';
-                                    status.innerText = `Lifting off: ${Math.round(p)}%`;
-                                }
-                            };
-                            return xhr; // This is what the SDK needs to call .open() on
-                        }
-                        // --- CRITICAL FIX END ---
-                    }, function(err, result) {
-                        if (err) {
-                            console.error("IK Error:", err);
-                            status.innerText = "Error: " + (err.message || "Upload Failed");
-                        } else {
-                            status.innerText = "Touchdown! Success.";
-                            addPhotoToGrid(result.url, file.type.includes('video'));
-                            setTimeout(() => {
-                                progressContainer.style.display = 'none';
-                            }, 3000);
-                        }
-                        uploadBtn.disabled = false;
+                    console.log("4. Auth Data Received:", { 
+                        token: authData.token ? "✅" : "❌", 
+                        signature: authData.signature ? "✅" : "❌", 
+                        expire: authData.expire 
                     });
+        
+                    console.log("5. Initializing ImageKit.upload...");
+                    
+                    // We use a try/catch specifically around the SDK call
+                    try {
+                        imagekit.upload({
+                            file: file,
+                            fileName: file.name,
+                            tags: ["meetup2026"],
+                            token: authData.token,
+                            signature: authData.signature,
+                            expire: authData.expire,
+                            xhr: function() {
+                                console.log("6. SDK requested XHR object. Creating...");
+                                const xhr = new XMLHttpRequest();
+                                xhr.upload.onprogress = function(evt) {
+                                    if (evt.lengthComputable) {
+                                        const p = (evt.loaded / evt.total) * 100;
+                                        progressBar.style.width = p + '%';
+                                        status.innerText = `Lifting off: ${Math.round(p)}%`;
+                                    }
+                                };
+                                return xhr;
+                            }
+                        }, function(err, result) {
+                            if (err) {
+                                console.error("❌ SDK Callback Error:", err);
+                                status.innerText = "Upload failed. See console.";
+                            } else {
+                                console.log("✅ SDK Success:", result);
+                                status.innerText = "Touchdown!";
+                                addPhotoToGrid(result.url, file.type.includes('video'));
+                            }
+                            console.groupEnd();
+                            uploadBtn.disabled = false;
+                        });
+                    } catch (sdkError) {
+                        console.error("💥 CRASH during SDK initialization:", sdkError);
+                        console.groupEnd();
+                        uploadBtn.disabled = false;
+                    }
                 })
                 .catch(err => {
-                    console.error("Auth Error:", err);
-                    status.innerText = "Auth Failed.";
+                    console.error("🚨 Flow Interrupted:", err.message);
+                    status.innerText = "Auth/Network Failure.";
+                    console.groupEnd();
                     uploadBtn.disabled = false;
                 });
         });
