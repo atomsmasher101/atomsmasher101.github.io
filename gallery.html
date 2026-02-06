@@ -138,34 +138,38 @@
                 status.innerText = "Uploading to ImageKit... 🛸";
 
                 imagekit.upload({
-                    file: file,
-                    fileName: file.name,
-                    tags: ["meetup2026"],
-                    token: authData.token,
-                    signature: authData.signature,
-                    expire: authData.expire,
-                    xhr: function() {
-                        const xhr = new window.XMLHttpRequest();
-                        xhr.upload.addEventListener("progress", (e) => {
-                            if (e.lengthComputable) {
-                                const p = (e.loaded / e.total) * 100;
-                                progressBar.style.width = p + '%';
-                                status.innerText = `Lifting off: ${Math.round(p)}%`;
-                            }
-                        });
-                        return xhr;
-                    }
-                }, function(err, result) {
-                    if (err) {
-                        console.error("IK Error:", err);
-                        status.innerText = "Error: " + (err.message || "Upload Failed");
-                    } else {
-                        status.innerText = "Touchdown! Success.";
-                        addPhotoToGrid(result.url, file.type.includes('video'));
-                        setTimeout(() => progressContainer.style.display = 'none', 3000);
-                    }
-                    uploadBtn.disabled = false;
-                });
+                file: file,
+                fileName: file.name,
+                tags: ["meetup2026"],
+                token: authData.token,
+                signature: authData.signature,
+                expire: authData.expire,
+                // Fix: Using a standard function instead of arrow function for xhr
+                xhr: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var p = (evt.loaded / evt.total) * 100;
+                            progressBar.style.width = p + '%';
+                            status.innerText = `Lifting off: ${Math.round(p)}%`;
+                        }
+                    });
+                    return xhr;
+                }
+            }, function(err, result) {
+                if (err) {
+                    console.error("IK Error:", err);
+                    status.innerText = "Error: " + (err.message || "Upload Failed");
+                } else {
+                    status.innerText = "Touchdown! Success.";
+                    addPhotoToGrid(result.url, file.type.includes('video'));
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                        status.innerText = "Ready for another?";
+                    }, 3000);
+                }
+                uploadBtn.disabled = false;
+            });
 
             } catch (err) {
                 console.error("Full Flow Error:", err);
