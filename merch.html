@@ -123,7 +123,7 @@
         </div>
 
         <p class="merch-teaser">
-            Limited edition Llama Trip '24 gear. Hoodies, tees, and exclusive llama accessories. 
+            Limited edition Llama Trip '24 gear. T-Shirts and possibly more items. 
             Once they're gone, they're gone forever.
         </p>
 
@@ -142,17 +142,35 @@
             .then(data => {
                 document.getElementById('nav-placeholder').innerHTML = data;
             });
-
-        // Simple Countdown Logic
-        const dropDate = new Date("March 1, 2024 00:00:00").getTime();
-
-        setInterval(() => {
+        
+        // Updated Countdown Logic
+        // SET YOUR DATE HERE (Year, Month - 1, Day, Hour, Minute)
+        // Note: Months are 0-indexed (0 = Jan, 1 = Feb, 2 = March...)
+        const dropDate = new Date(2026, 2, 1, 0, 0, 0).getTime(); 
+        
+        const timer = setInterval(() => {
             const now = new Date().getTime();
             const diff = dropDate - now;
-
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+            // If the countdown is finished, stop the timer and show zeros
+            if (diff < 0) {
+                clearInterval(timer);
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('mins').innerText = "00";
+                document.querySelector('.drop-title').innerText = "THE DROP IS LIVE!";
+                return;
+            }
+        
+            // Calculations for days, hours, and minutes
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+            // Display results (using padStart to keep it as "01" instead of "1")
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('mins').innerText = minutes.toString().padStart(2, '0');
         }, 1000);
     </script>
 </body>
