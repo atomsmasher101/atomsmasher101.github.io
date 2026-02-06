@@ -5,75 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llama Memories - Wilmington 2026</title>
     <style>
+        /* --- Styles: Minimalist Vaporwave --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Arial Black', sans-serif;
             background: #000;
             color: #fff;
             padding-top: 100px;
-            overflow-x: hidden;
         }
         nav {
             position: fixed; top: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem; z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem; z-index: 1000;
             border-bottom: 2px solid #ff00ff;
+            text-align: center;
         }
-        nav ul { list-style: none; display: flex; justify-content: center; gap: 2rem; }
-        nav a { color: #00ffff; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 0.9rem; }
+        nav a { color: #00ffff; text-decoration: none; margin: 0 15px; font-weight: 900; text-transform: uppercase; }
         
         .upload-card {
-            max-width: 600px; margin: 0 auto 4rem auto; padding: 2.5rem;
-            border: 3px solid #ff00ff; border-radius: 25px; text-align: center;
-            background: rgba(255, 0, 255, 0.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+            max-width: 500px; margin: 0 auto 3rem auto; padding: 2rem;
+            border: 2px solid #ff00ff; border-radius: 15px; text-align: center;
+            background: #111;
         }
-        .progress-container {
-            width: 100%; height: 12px; background: #111; border-radius: 10px;
-            margin: 20px 0; overflow: hidden; display: none; border: 1px solid #333;
-        }
-        #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff00ff, #00ffff); transition: width 0.2s ease; }
-        
         .upload-btn {
-            padding: 1rem 2rem; background: linear-gradient(135deg, #00ffff, #ffff00);
-            color: #000; border: none; border-radius: 50px; font-weight: 900;
-            cursor: pointer; text-transform: uppercase;
+            padding: 12px 24px; background: #00ffff; color: #000;
+            border: none; border-radius: 25px; font-weight: 900;
+            cursor: pointer; margin-top: 15px;
         }
-        .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .upload-btn:disabled { background: #333; color: #666; }
 
-        .gallery-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-        .gallery-item { height: 350px; border-radius: 20px; overflow: hidden; border: 2px solid #333; transition: 0.3s; background: #111; }
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .gallery-item { height: 300px; border-radius: 10px; overflow: hidden; background: #222; border: 1px solid #333; }
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; }
-        .status-msg { margin-top: 1rem; color: #00ffff; font-family: 'Arial', sans-serif; }
+        .status-msg { margin-top: 10px; color: #ffff00; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="gallery.html" style="color:#ffff00;">Gallery</a></li>
-        </ul>
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
     </nav>
 
-    <header style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="font-size: clamp(2rem, 5vw, 3rem); color: #ff00ff; text-transform: uppercase;">Llama Memories</h1>
-    </header>
-
     <section class="upload-card">
-        <h2>Submit Media</h2>
+        <h2 style="color:#ff00ff; margin-bottom:15px;">UPLOAD MEDIA</h2>
         <input type="file" id="file-selector" accept="image/*,video/*">
-        <div class="progress-container" id="progress-container"><div id="progress-bar"></div></div>
-        <button id="upload-btn" class="upload-btn">Beam it up! 🛸</button>
-        <div id="upload-status" class="status-msg">Ready for liftoff.</div>
+        <br>
+        <button id="upload-btn" class="upload-btn">BEAM UP 🛸</button>
+        <div id="upload-status" class="status-msg">Select a file to begin.</div>
     </section>
 
-    <section class="gallery-container">
-        <div class="gallery-grid" id="gallery-grid"></div>
-    </section>
+    <div class="gallery-grid" id="gallery-grid"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/imagekit-javascript@1.5.9/dist/imagekit.min.js"></script>
+    
     <script>
         // --- SETTINGS ---
         const IK_PUBLIC_KEY = "public_1ErPhSlplr1rBPQCe5DZtkYi+CY=";
@@ -81,6 +69,7 @@
         const CLOUDFLARE_AUTH_ENDPOINT = "https://nc2026photoupload.littleredatom.workers.dev/";
         const RESTRICTED_API_KEY = "private_/k8K1Gh7XeNUfj7kL0X0qgo7lCg=";
 
+        // 1. Initialize
         const imagekit = new ImageKit({
             publicKey: IK_PUBLIC_KEY,
             urlEndpoint: IK_URL_ENDPOINT
@@ -89,11 +78,9 @@
         const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('file-selector');
         const status = document.getElementById('upload-status');
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.getElementById('progress-container');
         const grid = document.getElementById('gallery-grid');
 
-        // 1. Load Gallery
+        // 2. Load Existing Gallery
         async function loadGallery() {
             const b64Key = btoa(RESTRICTED_API_KEY + ":");
             try {
@@ -119,63 +106,43 @@
             grid.prepend(div);
         }
 
-        // 2. The Final Upload Logic
+        // 3. The Stabilized Upload Logic
         uploadBtn.addEventListener('click', function() {
             const file = fileInput.files[0];
             if (!file) return alert("Please select a file.");
-        
-            console.group("🚀 Llama Upload Trace");
-            console.log("1. File selected:", file.name, `(${file.size} bytes)`);
-            
+
             uploadBtn.disabled = true;
-            status.innerText = "Trace started... 🔍";
-        
-            // Trace Authentication
-            console.log("2. Contacting Cloudflare Worker...");
+            status.innerText = "Requesting Auth... 🔑";
+
+            // Step 1: Get signature from Cloudflare
             fetch(CLOUDFLARE_AUTH_ENDPOINT)
-                .then(response => {
-                    console.log("3. Worker Response Status:", response.status);
-                    if (!response.ok) throw new Error(`Worker HTTP ${response.status}`);
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(authData => {
-                    console.log("4. Auth Data Received:", { 
-                        token: authData.token ? "✅" : "❌", 
-                        signature: authData.signature ? "✅" : "❌", 
-                        expire: authData.expire 
-                    });
-        
-                    console.log("5. Initializing ImageKit.upload...");
-                        imagekit.upload({
-                            file: file,
-                            fileName: file.name,
-                            tags: ["meetup2026"],
-                            token: authData.token,
-                            signature: authData.signature,
-                            expire: authData.expire
-                            // WE REMOVED THE XHR BLOCK TEMPORARILY
-                        }, function(err, result) {
-                            if (err) {
-                                console.error("❌ SDK Callback Error:", err);
-                                status.innerText = "Upload failed: " + err.message;
-                            } else {
-                                console.log("✅ SDK Success:", result);
-                                status.innerText = "Touchdown!";
-                                addPhotoToGrid(result.url, file.type.includes('video'));
-                            }
-                            console.groupEnd();
-                            uploadBtn.disabled = false;
-                        });
-                    } catch (sdkError) {
-                        console.error("💥 CRASH during SDK initialization:", sdkError);
-                        console.groupEnd();
+                    status.innerText = "Uploading... (This may take a moment) 🛸";
+                    
+                    // Step 2: Use SDK to upload
+                    imagekit.upload({
+                        file: file,
+                        fileName: file.name,
+                        tags: ["meetup2026"],
+                        token: authData.token,
+                        signature: authData.signature,
+                        expire: authData.expire
+                        // Note: XHR progress block removed to prevent e.open error
+                    }, function(err, result) {
+                        if (err) {
+                            console.error("SDK Error:", err);
+                            status.innerText = "Error: " + (err.message || "Upload failed");
+                        } else {
+                            status.innerText = "Success! Media added.";
+                            addPhotoToGrid(result.url, file.type.includes('video'));
+                        }
                         uploadBtn.disabled = false;
-                    }
+                    });
                 })
                 .catch(err => {
-                    console.error("🚨 Flow Interrupted:", err.message);
-                    status.innerText = "Auth/Network Failure.";
-                    console.groupEnd();
+                    console.error("Auth Fail:", err);
+                    status.innerText = "Auth failed. Check Worker.";
                     uploadBtn.disabled = false;
                 });
         });
