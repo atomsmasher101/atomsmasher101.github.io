@@ -120,31 +120,33 @@
         }
 
         // 2. The Final Upload Logic
-        uploadBtn.addEventListener('click', async () => {
-            const file = fileInput.files[0];
-            if (!file) return alert("Please select a file.");
+        uploadBtn.addEventListener('click', function() {
+    const file = fileInput.files[0];
+    if (!file) return alert("Please select a file.");
 
-            uploadBtn.disabled = true;
-            status.innerText = "Requesting Auth... 🔑";
+    uploadBtn.disabled = true;
+    status.innerText = "Requesting Auth... 🔑";
 
-            try {
-                // Fetch the signature manually to bypass SDK quirks
-                const authResponse = await fetch(CLOUDFLARE_AUTH_ENDPOINT);
-                if (!authResponse.ok) throw new Error("Worker Auth Failed");
-                const authData = await authResponse.json();
+    // Step 1: Fetch the signature from your Worker
+    fetch(CLOUDFLARE_AUTH_ENDPOINT)
+        .then(response => {
+            if (!response.ok) throw new Error("Worker Auth Failed");
+            return response.json();
+        })
+        .then(authData => {
+            // Step 2: Now that we have authData, start the upload
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            status.innerText = "Beaming up... 🛸";
 
-                progressContainer.style.display = 'block';
-                progressBar.style.width = '0%';
-                status.innerText = "Uploading to ImageKit... 🛸";
-
-                imagekit.upload({
+            imagekit.upload({
                 file: file,
                 fileName: file.name,
                 tags: ["meetup2026"],
                 token: authData.token,
                 signature: authData.signature,
                 expire: authData.expire,
-                // Fix: Using a standard function instead of arrow function for xhr
+                // The SDK is very picky about this specific structure:
                 xhr: function() {
                     var xhr = new XMLHttpRequest();
                     xhr.upload.addEventListener("progress", function(evt) {
@@ -157,6 +159,7 @@
                     return xhr;
                 }
             }, function(err, result) {
+                // Step 3: Handle the result
                 if (err) {
                     console.error("IK Error:", err);
                     status.innerText = "Error: " + (err.message || "Upload Failed");
@@ -170,13 +173,13 @@
                 }
                 uploadBtn.disabled = false;
             });
-
-            } catch (err) {
-                console.error("Full Flow Error:", err);
-                status.innerText = "Worker Error. Check Logs.";
-                uploadBtn.disabled = false;
-            }
+        })
+        .catch(err => {
+            console.error("Full Flow Error:", err);
+            status.innerText = "Worker Error. Check Logs.";
+            uploadBtn.disabled = false;
         });
+});
 
         window.addEventListener('DOMContentLoaded', loadGallery);
     </script>
