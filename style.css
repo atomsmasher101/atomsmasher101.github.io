@@ -515,7 +515,7 @@ body.gallery-page .footer-logo img:hover {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
     gap: 20px;
 }
 
@@ -746,7 +746,7 @@ section h2 {
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -818,7 +818,7 @@ section h2 {
 
 .houses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 3rem;
     margin-top: 3rem;
 }
@@ -949,7 +949,7 @@ section h2 {
 
 .competition-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 2rem;
     margin-top: 3rem;
 }
@@ -1005,4 +1005,4 @@ footer::before {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #ff00ff, #00ffff,
+    backgrou
