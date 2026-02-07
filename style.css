@@ -82,3 +82,81 @@ nav {
     .nav-container { flex-direction: column; gap: 0.4rem; }
     .nav-links { gap: 0.3rem; flex-wrap: wrap; justify-content: center; }
 }
+/* Agreement Form Styling */
+.legal-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    border-left: 4px solid #00ffff;
+}
+
+.liability-box {
+    border-left-color: #ff00ff;
+}
+
+.legal-section h3 {
+    color: #ffff00;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.legal-section ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+}
+
+.check-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.check-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #222;
+    border: 2px solid #00ffff;
+    border-radius: 4px;
+}
+
+.check-container:hover input ~ .checkmark {
+    background-color: #333;
+}
+
+.check-container input:checked ~ .checkmark {
+    background-color: #00ffff;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
