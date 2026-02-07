@@ -1,74 +1,262 @@
-<section class="agreement-form">
-    <form id="llama-agreement">
-        <h2>Llama Community Meetup Agreement</h2>
-        <p class="subtitle">Wilmington, NC | Effective Feb 6, 2026</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreement | Llama Trip 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .agreement-container {
+            max-width: 850px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid #333;
+            border-radius: 25px;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+        }
 
-        <div class="form-group">
-            <label>Name(s)</label>
-            <input type="text" name="full_name" required>
-        </div>
+        .subtitle {
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
 
-        <hr class="form-divider">
+        .form-divider {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff00ff, transparent);
+            margin: 2.5rem 0;
+        }
 
-        <div class="legal-section">
-            <h3>3. Code of Conduct Commitment</h3>
-            <p>By checking these boxes, I/we commit to the following:</p>
-            
-            <div class="checkbox-group">
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: #ffff00;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        /* Payment Box Styling */
+        .payment-box {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #00ffff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .payment-box p { margin: 5px 0; color: #fff; }
+        .total-cost { font-size: 1.4rem; color: #ffff00; font-weight: 900; margin: 1rem 0; }
+
+        /* Legal Sections */
+        .legal-section {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #ff00ff;
+        }
+
+        .legal-section h3 { margin-bottom: 1rem; color: #fff; text-transform: uppercase; }
+        .legal-section ul { padding-left: 1.2rem; color: #ccc; margin-bottom: 1rem; }
+        .legal-section li { margin-bottom: 8px; }
+
+        .check-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #eee;
+        }
+
+        .check-container input { position: absolute; opacity: 0; cursor: pointer; }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: #000;
+            border: 2px solid #ff00ff;
+            border-radius: 4px;
+        }
+
+        .check-container input:checked ~ .checkmark { background-color: #ff00ff; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <div id="nav-placeholder"></div>
+
+    <div class="agreement-container">
+        <form id="meetupForm">
+            <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">MEETUP AGREEMENT</h1>
+            <p class="subtitle">Wilmington, North Carolina | 2026</p>
+
+            <div class="form-group">
+                <label>Name / Couple Names *</label>
+                <input type="text" name="names" required>
+            </div>
+            <div class="form-group">
+                <label>Discord Username(s) *</label>
+                <input type="text" name="discord" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label>Emergency Contact *</label>
+                    <input type="text" name="emergency_contact" required>
+                </div>
+                <div class="form-group">
+                    <label>Emergency Phone *</label>
+                    <input type="tel" name="emergency_phone" required>
+                </div>
+            </div>
+
+            <hr class="form-divider">
+
+            <h2>2. Payment Commitment</h2>
+            <div class="payment-box">
+                <p><strong>First Payment (Due Now):</strong> $182.90 (Non-refundable deposit)</p>
+                <p><strong>Second Payment (Due 06/24/26):</strong> $182.89</p>
+                <p class="total-cost">Total Commitment: $365.79</p>
+            </div>
+            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 2rem;">
+                Covers accommodations for 6 participants. Subject to change if group size shifts. Group meals/activities not included.
+            </p>
+
+            <hr class="form-divider">
+
+            <div class="legal-section">
+                <h3>3. Code of Conduct</h3>
+                <ul>
+                    <li>Respect & Inclusivity (Personal boundaries, pronouns, no bullying).</li>
+                    <li>Shared Spaces (Cleanliness, house rules, quiet hours).</li>
+                    <li>Substances (Responsible drinking, no illegal drugs).</li>
+                    <li>Safety (Buddy system, notifying group of whereabouts).</li>
+                </ul>
                 <label class="check-container">
-                    <input type="checkbox" required>
+                    I/We commit to abiding by the full code of conduct.
+                    <input type="checkbox" name="conduct_check" required>
                     <span class="checkmark"></span>
-                    <strong>Respect & Inclusivity:</strong> I will treat all attendees with dignity, respect boundaries, and refrain from harassment or discrimination.
-                </label>
-
-                <label class="check-container">
-                    <input type="checkbox" required>
-                    <span class="checkmark"></span>
-                    <strong>Communication & Shared Spaces:</strong> I will communicate honestly, keep shared areas clean, follow house rules, and respect quiet hours.
-                </label>
-
-                <label class="check-container">
-                    <input type="checkbox" required>
-                    <span class="checkmark"></span>
-                    <strong>Alcohol & Substances:</strong> I will follow local laws, drink responsibly, and never pressure others. No illegal drugs.
-                </label>
-
-                <label class="check-container">
-                    <input type="checkbox" required>
-                    <span class="checkmark"></span>
-                    <strong>Safety & Expenses:</strong> I will use the buddy system, notify the group when leaving, and pay shared contributions on time.
-                </label>
-
-                <label class="check-container">
-                    <input type="checkbox" required>
-                    <span class="checkmark"></span>
-                    <strong>Consequences:</strong> I understand violations may result in a warning or being asked to leave without a refund.
                 </label>
             </div>
-        </div>
 
-        <hr class="form-divider">
+            <div class="legal-section" style="border-left-color: #00ffff;">
+                <h3>4. Liability Acknowledgment</h3>
+                <ul>
+                    <li>Participation is voluntary.</li>
+                    <li>Organizers are NOT liable for injuries, losses, or damages.</li>
+                    <li>I have adequate health insurance coverage.</li>
+                </ul>
+                <label class="check-container">
+                    I/We acknowledge and accept the liability terms.
+                    <input type="checkbox" name="liability_check" required>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
 
-        <div class="legal-section liability-box">
-            <h3>4. Acknowledgment of Liability</h3>
-            <ul>
-                <li>My participation is voluntary.</li>
-                <li>I am responsible for my own safety and well-being.</li>
-                <li><strong>The organizers are not liable for injuries, losses, or damages.</strong></li>
-                <li>I have adequate health insurance and will follow all local laws in Wilmington, NC.</li>
-            </ul>
-            <label class="check-container">
-                <input type="checkbox" required>
-                <span class="checkmark"></span>
-                I/We acknowledge and accept these liability terms.
-            </label>
-        </div>
+            <hr class="form-divider">
 
-        <div class="form-group">
-            <label>Digital Signature (Type Full Name)</label>
-            <input type="text" name="signature" required>
-        </div>
+            <div class="form-group">
+                <label>Digital Signature (Full Name) *</label>
+                <input type="text" name="signature1" required>
+            </div>
+            <div class="form-group">
+                <label>Date *</label>
+                <input type="text" name="date1" id="currentDate" readonly>
+            </div>
 
-        <button type="submit" class="submit-btn">Submit Agreement</button>
-    </form>
-</section>
+            <button type="submit" id="submitBtn">Submit Agreement</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // 1. Load Nav
+        fetch('nav.html').then(r => r.text()).then(d => {
+            document.getElementById('nav-placeholder').innerHTML = d;
+        });
+
+        // 2. Set Today's Date
+        document.getElementById('currentDate').value = new Date().toLocaleDateString();
+
+        // 3. EmailJS Setup
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // <--- REPLACE THIS
+        })();
+
+        document.getElementById('meetupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'TRANSMITTING...';
+            
+            const formData = new FormData(this);
+            const templateParams = {
+                names: formData.get('names'),
+                discord: formData.get('discord'),
+                emergency_contact: formData.get('emergency_contact'),
+                emergency_phone: formData.get('emergency_phone'),
+                signature1: formData.get('signature1'),
+                date1: formData.get('date1'),
+                submission_date: new Date().toLocaleString()
+            };
+            
+            // Note: Update Service & Template IDs if they changed!
+            emailjs.send('service_t4wpecc', 'template_jy7115z', templateParams)
+                .then(function() {
+                    alert('SUCCESS! Your agreement is locked in.');
+                    window.location.href = "index.html"; // Redirect home on success
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Submission failed. Check console for error.');
+                    btn.disabled = false;
+                    btn.textContent = 'Submit Agreement';
+                });
+        });
+    </script>
+</body>
+</html>
