@@ -49,6 +49,17 @@
         <div id="upload-status" class="status-msg">Share the fun with the herd!</div>
     </section>
 
+    <!-- Lightbox Overlay -->
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-prev">&#10094;</button>
+        <button class="lightbox-next">&#10095;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <video id="lightbox-video" controls></video>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="footer-logo">
@@ -99,10 +110,13 @@
         function addPhotoToGrid(url, isVideo = false) {
             const div = document.createElement('div');
             div.className = 'gallery-item';
+            div.dataset.fullUrl = url;
+            div.dataset.isVideo = isVideo;
             const thumbUrl = isVideo ? url : `${url}?tr=w-500,h-500,fo-auto`;
             div.innerHTML = isVideo 
                 ? `<video src="${url}" muted onmouseover="this.play()" onmouseout="this.pause()" loop></video>` 
                 : `<img src="${thumbUrl}" loading="lazy">`;
+            div.addEventListener('click', () => openLightbox(url, isVideo));
             grid.prepend(div);
         }
 
@@ -149,6 +163,80 @@
         });
 
         loadGallery();
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+        
+        let currentIndex = 0;
+        let galleryItems = [];
+
+        function updateGalleryItems() {
+            galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+        }
+
+        function openLightbox(url, isVideo) {
+            updateGalleryItems();
+            currentIndex = galleryItems.findIndex(item => item.dataset.fullUrl === url);
+            showMedia(url, isVideo);
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showMedia(url, isVideo) {
+            if (isVideo) {
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = url;
+            } else {
+                lightboxVideo.style.display = 'none';
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = url;
+            }
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            lightboxVideo.pause();
+            lightboxVideo.src = '';
+            document.body.style.overflow = '';
+        }
+
+        function showPrev() {
+            updateGalleryItems();
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            const item = galleryItems[currentIndex];
+            showMedia(item.dataset.fullUrl, item.dataset.isVideo === 'true');
+        }
+
+        function showNext() {
+            updateGalleryItems();
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            const item = galleryItems[currentIndex];
+            showMedia(item.dataset.fullUrl, item.dataset.isVideo === 'true');
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', showPrev);
+        nextBtn.addEventListener('click', showNext);
+
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrev();
+                if (e.key === 'ArrowRight') showNext();
+            }
+        });
     </script>
 </body>
 </html>
