@@ -263,10 +263,8 @@
             emailjs.send('service_t4wpecc', 'template_jy7115z', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
-                    alert('Agreement submitted successfully! A copy has been sent to the organizer.');
-                    document.getElementById('meetupForm').reset();
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Submit Agreement';
+                    // Redirect to success page
+                    window.location.href = 'success.html';
                 }, function(error) {
                     console.log('FAILED...', error);
                     alert('There was an error submitting the form. Please try again or contact the organizer directly.');
