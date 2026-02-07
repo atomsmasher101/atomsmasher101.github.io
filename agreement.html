@@ -3,37 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agreement | Llama Trip 2026</title>
+    <title>Agreement | Llama Community Meetup</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .agreement-container {
-            max-width: 850px;
-            margin: 2rem auto;
-            padding: 2.5rem;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid #333;
-            border-radius: 25px;
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+        /* OFFICIAL FORM OVERRIDES: This makes the form look exactly like your example */
+        .agreement-body {
+            background-color: #fff; /* White background for the document feel */
+            color: #333;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            line-height: 1.6;
         }
 
-        .subtitle {
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 800;
-            margin-bottom: 2rem;
+        .agreement-body h1 {
             text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
-        .form-divider {
-            border: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ff00ff, transparent);
-            margin: 2.5rem 0;
+        .agreement-body h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
         }
 
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label {
+        .agreement-body h3 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+
+        .header-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .agreement-body label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .agreement-body input[type="text"],
+        .agreement-body input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background: #fff;
+            color: #333;
+        }
+
+        .agreement-body input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .payment-box {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .important {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+
+        .agreement-body ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .agreement-body button {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .agreement-body button:hover {
+            background-color: #2980b9;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ecf0f1;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="nav-placeholder"></div>
+
+    <div class="agreement-body">
+        <h1>Llama Community Meetup Agreement</h1>
+        
+        <div class="header-info">
+            <h2>Wilmington, North Carolina</h2>
+            <p><strong>Effective Date:</strong> 02/06/2026</p>
+        </div>
+
+        <form id="meetupForm">
+            <h2>1. My/Our Information</h2>
+            
+            <div class="form-group">
+                <label for="names">Name/Couple Names *</label>
+                <input type="text" id="names" name="names" required>
+            </div>
+
+            <div class="form-group">
+                <label for="discord">Discord Username(s) *</label>
+                <input type="text" id="discord" name="discord" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emergency_contact">Emergency Contact *</label>
+                <input type="text" id="emergency_contact" name="emergency_contact" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emergency_phone">Emergency Contact Phone *</label>
+                <input type="tel" id="emergency_phone" name="emergency_phone" required>
+            </div>
+
+            <hr>
+
+            <h2>2. My/Our Payment Commitment</h2>
+            <div class="payment-box">
+                <p><strong>First Payment (Due Now):</strong> $182.90 (Non-refundable deposit)</p>
+                <p><strong>Second Payment (Due June 2026):</strong> $182.89 (Due June 24)</p>
+                <p><strong>Total Cost: $365.79</strong></p>
+            </div>
+            <p>These payments cover accommodations only. Shared group expenses for meals or activities are not included.</p>
+
+            <h3>Cancellation Policy</h3>
+            <div class="important">
+                <ul>
+                    <li><strong>First Payment:</strong> Non-refundable</li>
+                    <li><strong>Second Payment:</strong> Refundable until June 17, 2026</li>
+                    <li>No refunds after June 17, 2026 or for No-Shows.</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <h2>3. My/Our Code of Conduct Commitment</h2>
+            <h3>Respect, Communication & Shared Spaces</h3>
+            <ul>
+                <li>Treat all attendees with dignity; respect boundaries and pronouns.</li>
+                <li>Keep rentals clean, follow house rules, and respect quiet hours.</li>
+                <li>Responsible alcohol use; no illegal drugs.</li>
+                <li>Use the buddy system for safety and report concerns immediately.</li>
+            </ul>
+            <p><strong>Consequences:</strong> Violations may result in warnings or expulsion without refund.</p>
+
+            <hr>
+
+            <h2>4. My/Our Acknowledgment of Liability</h2>
+            <ul>
+                <li>Participation is voluntary.</li>
+                <li>Organizers are not liable for injuries, losses, or damages.</li>
+                <li>I have adequate health insurance and will follow local laws.</li>
+            </ul>
+
+            <hr>
+
+            <h2>5. My/Our Agreement</h2>
+            <div class="checkbox-item">
+                <input type="checkbox" id="agreement_check" name="agreement_check" required>
+                <label for="agreement_check">I/We have read, understood, and agree to all terms outlined in this agreement, including the payment schedule and code of conduct. *</label>
+            </div>
+
+            <div class="signature-section">
+                <div class="form-group">
+                    <label for="signature1">My/Our Signature (Type Full Name) *</label>
+                    <input type="text" id="signature1" name="signature1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date1">Date *</label>
+                    <input type="text" id="date1" name="date1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signature2">Couple/Second Participant Signature (if applicable)</label>
+                    <input type="text" id="signature2" name="signature2">
+                </div>
+            </div>
+
+            <button type="submit">Submit Agreement</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // Load Nav
+        fetch('nav.html').then(r => r.text()).then(d => {
+            document.getElementById('nav-placeholder').innerHTML = d;
+        });
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("pdHztMpEAGH3unfJw");
+        })();
+
+        document.getElementById('meetupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            
+            const formData = new FormData(this);
+            const templateParams = {
+                names: formData.get('names'),
+                discord: formData.get('discord'),
+                emergency_contact: formData.get('emergency_contact'),
+                emergency_phone: formData.get('emergency_phone'),
+                signature1: formData.get('signature1'),
+                date1: formData.get('date1'),
+                signature2: formData.get('signature2') || 'N/A',
+                submission_date: new Date().toLocaleString()
+            };
+            
+            emailjs.send('service_t4wpecc', 'template_jy7115z', templateParams)
+                .then(function() {
+                    alert('Agreement submitted successfully!');
+                    document.getElementById('meetupForm').reset();
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Submit Agreement';
+                }, function(error) {
+                    alert('Error submitting form. Check console.');
+                    console.log('FAILED...', error);
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Submit Agreement';
+                });
+        });
+    </script>
+</body>
+</html>
             display: block;
             margin-bottom: 0.6rem;
             color: #ffff00;
