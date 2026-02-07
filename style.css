@@ -510,7 +510,7 @@ body.gallery-page .footer-logo img:hover {
 .gallery-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 20px 3rem 20px;
 }
 
 .gallery-grid {
@@ -544,16 +544,15 @@ body.gallery-page .footer-logo img:hover {
 
 /* Fixed Bottom Upload Dialog */
 .upload-panel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: static;
     width: 100%;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-top: 3px solid #ff00ff;
-    padding: 1.5rem;
-    z-index: 1001; /* Higher than footer */
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+    border-bottom: 3px solid #ff00ff;
+    padding: 2rem 1.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 -10px 40px rgba(0,0,0,0.1);
     text-align: center;
 }
 
