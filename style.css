@@ -1556,8 +1556,70 @@ body.success-page {
     }
 
     /* Page header */
+    .page-header {
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+    }
+
     .page-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        letter-spacing: -0.5px;
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+
+    .page-header p {
+        font-size: 0.9rem;
+    }
+
+    /* Agreement page form styles */
+    .container {
+        margin: 80px auto 40px;
+        padding: 2rem 1rem;
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+    }
+
+    .form-header h1,
+    h1 {
+        font-size: 1.5rem !important;
+        letter-spacing: 0px !important;
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+
+    .header-info h2 {
+        font-size: 1.2rem !important;
+        letter-spacing: 0px !important;
+        word-wrap: break-word;
+    }
+
+    .header-info p {
+        font-size: 1rem !important;
+    }
+
+    #meetupForm h2 {
+        font-size: 1.3rem !important;
+        letter-spacing: 0px !important;
+        word-wrap: break-word;
+        margin: 2rem 0 1rem;
+    }
+
+    #meetupForm h3 {
+        font-size: 1.1rem !important;
+        word-wrap: break-word;
+    }
+
+    #meetupForm p,
+    #meetupForm li {
+        font-size: 0.9rem !important;
+    }
+
+    .payment-box,
+    .important {
+        padding: 1rem !important;
     }
 
     .countdown-container { 
@@ -1606,6 +1668,37 @@ body.success-page {
     section h2 {
         font-size: 1.3rem;
         letter-spacing: 0px;
+    }
+
+    /* Agreement page extra small */
+    .container {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .form-header h1,
+    h1 {
+        font-size: 1.2rem !important;
+    }
+
+    .header-info h2 {
+        font-size: 1rem !important;
+    }
+
+    .header-info p {
+        font-size: 0.85rem !important;
+    }
+
+    #meetupForm h2 {
+        font-size: 1.1rem !important;
+    }
+
+    #meetupForm h3 {
+        font-size: 1rem !important;
+    }
+
+    #meetupForm p,
+    #meetupForm li {
+        font-size: 0.85rem !important;
     }
 
     .info-card,
