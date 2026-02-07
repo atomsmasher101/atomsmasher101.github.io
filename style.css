@@ -447,7 +447,7 @@ hr {
 body.gallery-page {
     background: #fdfdfd;
     color: #1a1a1a;
-    padding-bottom: 320px; /* Space for upload panel + footer */
+    padding-bottom: 160px; /* Space for upload panel only, footer is in normal flow */
 }
 
 body.gallery-page nav {
@@ -552,7 +552,7 @@ body.gallery-page .footer-logo img:hover {
     backdrop-filter: blur(10px);
     border-top: 3px solid #ff00ff;
     padding: 1.5rem;
-    z-index: 1000;
+    z-index: 1001; /* Higher than footer */
     box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
     text-align: center;
 }
