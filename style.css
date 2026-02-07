@@ -1,0 +1,84 @@
+/* --- Global Resets & Fixes --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: #000; /* Kills the white background peek */
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* This pushes content down so the fixed nav doesn't block it */
+    padding-top: 80px; 
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px; /* More room for mobile stacked nav */
+    }
+}
+
+section {
+    scroll-margin-top: 100px; /* Offset for anchor links */
+}
+
+/* --- Navigation Styles --- */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 1.5rem;
+    z-index: 1000;
+    border-bottom: 2px solid #ff00ff;
+    box-shadow: 0 2px 20px rgba(255, 0, 255, 0.2);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.nav-logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 0.8rem;
+    white-space: nowrap;
+}
+
+.nav-links a {
+    color: #00ffff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ff00ff;
+    text-shadow: 0 0 8px #ff00ff;
+}
+
+/* --- Mobile Nav Tweaks --- */
+@media (max-width: 768px) {
+    .nav-container { flex-direction: column; gap: 0.4rem; }
+    .nav-links { gap: 0.3rem; flex-wrap: wrap; justify-content: center; }
+}
