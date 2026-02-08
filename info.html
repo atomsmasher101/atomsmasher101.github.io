@@ -8,29 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llama Community Meetup - Wilmington 2026</title>
     <link rel="stylesheet" href="style.css?v=2">
+    <style>
+        /* Remove top padding since there's no nav */
+        body {
+            padding-top: 0 !important;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <div id="nav-placeholder"></div>
-
-    <script>
-        // Fetch and inject the navigation
-        fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('nav-placeholder').innerHTML = data;
-                
-                // Highlight the active link based on the current filename
-                const currentPage = window.location.pathname.split("/").pop() || "index.html";
-                const navLinks = document.querySelectorAll('nav a');
-                navLinks.forEach(link => {
-                    if (link.getAttribute('href') === currentPage) {
-                        link.style.color = '#ffff00'; // Yellow for active page
-                    }
-                });
-            });
-    </script>
-
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
@@ -176,9 +161,9 @@
     <section class="trip-info" id="contact">
         <h2>Interested in Joining?</h2>
         <div class="scavenger-intro" style="max-width: 700px; margin: 0 auto;">
-            <p>This is a private community event for invited members. If you're interested in learning more or think you should have received an invitation, please reach out to the organizer through the LittleRedAtom Twitch community!</p>
+            <p>This is a private community event for TheMediocreLlama's community. If you're interested in learning more about the trip, join the official Discord and ask about it in the general chat!</p>
             <p style="margin-top: 1.5rem;">
-                <a href="https://www.twitch.tv/littleredatom" target="_blank" class="cta-button" style="display: inline-block; text-decoration: none;">Visit LittleRedAtom on Twitch</a>
+                <a href="https://dsc.gg/themediocrellama" target="_blank" class="cta-button" style="display: inline-block; text-decoration: none;">Join TheMediocreLlama Discord</a>
             </p>
         </div>
     </section>
