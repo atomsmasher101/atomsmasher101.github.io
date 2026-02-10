@@ -901,12 +901,14 @@ section h2 {
 .info-card h3 {
     color: #00ffff;
     margin-bottom: 1rem;
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); /* Responsive font size */
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    letter-spacing: 1px; /* Reduced from 2px */
+    line-height: 1.3; /* Added for better spacing */
+    word-break: break-word; /* Break long words properly */
+    overflow-wrap: break-word; /* Alternative for better support */
+    hyphens: auto; /* Enable hyphenation if needed */
 }
 
 .info-card .icon {
@@ -917,9 +919,11 @@ section h2 {
 }
 
 .info-card p {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem); /* Responsive font size */
     font-weight: 600;
     line-height: 1.6;
+    word-break: break-word; /* Break long words properly */
+    overflow-wrap: break-word; /* Alternative for better support */
 }
 
 .info-card strong {
@@ -1097,17 +1101,22 @@ section h2 {
 }
 
 .feature h3 {
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); /* Responsive font size */
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1px; /* Reduced from 1px */
     color: #ffff00;
+    line-height: 1.3; /* Added for better spacing */
+    word-break: break-word; /* Break long words properly */
+    overflow-wrap: break-word; /* Alternative for better support */
+    hyphens: auto; /* Enable hyphenation if needed */
 }
-
 .feature p {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem); /* Responsive font size */
     font-weight: 600;
     line-height: 1.6;
+    word-break: break-word; /* Break long words properly */
+    overflow-wrap: break-word; /* Alternative for better support */
 }
 
 /* Footer */
@@ -1196,6 +1205,7 @@ footer strong {
         font-size: 0.85rem;
         padding: 0.4rem 0.8rem;
     }
+   
 }
 
 /* ============================================
@@ -1479,20 +1489,25 @@ body.success-page {
 
     .info-card h3,
     .feature h3 {
-        font-size: 1.3rem;
-        word-wrap: break-word;
-        letter-spacing: 0.5px;
+        font-size: clamp(1.1rem, 4vw, 1.5rem); /* More aggressive scaling on mobile */
+        letter-spacing: 0.5px; /* Even tighter on mobile */
+        margin-bottom: 0.8rem; /* Reduce spacing */
     }
 
     .info-card p,
     .feature p {
-        font-size: 0.9rem;
-        word-wrap: break-word;
+        font-size: clamp(0.85rem, 3.5vw, 1rem); /* More aggressive scaling on mobile */
+        line-height: 1.5; /* Tighter line height on mobile */
     }
 
     .info-card .icon,
     .feature .icon {
         font-size: 2.5rem;
+    }
+
+   .info-card,
+    .feature {
+        padding: 1.5rem 1.2rem; /* Slightly more horizontal padding */
     }
 
     /* Scavenger hunt sections */
@@ -1705,6 +1720,17 @@ body.success-page {
     .house-card,
     .feature {
         padding: 1.25rem 0.75rem;
+    }
+
+   .info-card h3,
+    .feature h3 {
+        font-size: clamp(1rem, 5vw, 1.3rem); /* Even more aggressive scaling */
+        letter-spacing: 0.3px;
+    }
+
+   .info-card p,
+    .feature p {
+        font-size: clamp(0.8rem, 4vw, 0.95rem);
     }
 
     .scavenger-intro,
