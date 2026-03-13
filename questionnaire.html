@@ -2,15 +2,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<title>Llama Meetup Team Survey</title>
+<title>Llama Meetup Team Balancing Survey</title>
 
-<!-- Your site stylesheet -->
+<!-- Site Styles -->
 <link rel="stylesheet" href="https://nctrip.wascomb.com/style.css">
 
 <!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<style>
+
+/* Force Likert scale to display left-to-right */
+.likert-row{
+display:flex;
+gap:18px;
+align-items:center;
+margin-top:6px;
+flex-wrap:wrap;
+}
+
+.likert-row label{
+display:flex;
+align-items:center;
+gap:4px;
+cursor:pointer;
+}
+
+.scale-guide{
+font-size:0.9em;
+margin-bottom:20px;
+opacity:0.8;
+}
+
+</style>
 
 </head>
 
@@ -31,14 +56,14 @@
 <h2>Participant Information</h2>
 
 <div class="form-group">
-<label>Name</label>
-<input type="text" name="name" required>
+<label for="name">Name</label>
+<input type="text" id="name" name="name" required>
 </div>
 
 <hr>
 
-<h2>Rate Each Statement (1-5)</h2>
-<p>1 = Strongly Disagree | 5 = Strongly Agree</p>
+<h2>Rate Each Statement</h2>
+<p class="scale-guide">1 = Strongly Disagree &nbsp;&nbsp; | &nbsp;&nbsp; 5 = Strongly Agree</p>
 
 <div id="questions"></div>
 
@@ -50,9 +75,12 @@
 
 <script>
 
+/* Initialize EmailJS */
 (function(){
 emailjs.init("YOUR_PUBLIC_KEY");
 })();
+
+/* Questionnaire statements */
 
 const questions = [
 
@@ -73,15 +101,17 @@ const questions = [
 "I enjoy long endurance challenges.",
 "I adapt quickly to rule changes.",
 "I enjoy playful trash talk with competitors.",
-"I prefer collaboration over spotlight.",
+"I prefer collaboration over individual spotlight.",
 "I notice details others miss.",
 "I try unconventional ideas.",
 "I stay positive even when losing.",
 "I enjoy social games and icebreakers.",
-"I am motivated by team success.",
+"I am motivated by helping my team succeed.",
 "I enjoy planning tactics before starting."
 
 ];
+
+/* Generate question UI */
 
 const container = document.getElementById("questions");
 
@@ -92,7 +122,7 @@ div.className = "form-group";
 
 div.innerHTML = `
 <label>${i+1}. ${q}</label>
-<div>
+<div class="likert-row">
 <label><input type="radio" name="q${i}" value="1" required>1</label>
 <label><input type="radio" name="q${i}" value="2">2</label>
 <label><input type="radio" name="q${i}" value="3">3</label>
@@ -104,6 +134,8 @@ div.innerHTML = `
 container.appendChild(div);
 
 });
+
+/* Form Submission */
 
 document.getElementById("meetupForm").addEventListener("submit", function(e){
 
@@ -126,15 +158,14 @@ emailjs.send(
 "YOUR_SERVICE_ID",
 "YOUR_TEMPLATE_ID",
 templateParams
-).then(() => {
+).then(function(){
 
 alert("Survey submitted successfully!");
+document.getElementById("meetupForm").reset();
 
-this.reset();
+}, function(){
 
-}, () => {
-
-alert("Submission failed.");
+alert("Submission failed. Please try again.");
 
 });
 
