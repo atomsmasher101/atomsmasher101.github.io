@@ -1,9 +1,15 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Llama Meetup Competition Questionnaire</title>
 
+<meta charset="UTF-8">
+<title>Llama Meetup Team Survey</title>
+
+<!-- Your site stylesheet -->
+<link rel="stylesheet" href="https://nctrip.wascomb.com/style.css">
+
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </head>
@@ -15,8 +21,8 @@
 <div class="form-header">
 <h1>Team Balancing Survey</h1>
 <div class="header-info">
-<h2>Llama Meetup Competition</h2>
-<p>Help us create two evenly matched teams</p>
+<h2>NC Llama Meetup Competition</h2>
+<p>Please answer honestly so teams can be balanced.</p>
 </div>
 </div>
 
@@ -25,13 +31,14 @@
 <h2>Participant Information</h2>
 
 <div class="form-group">
-<label for="name">Name</label>
-<input type="text" id="name" name="name" required>
+<label>Name</label>
+<input type="text" name="name" required>
 </div>
 
 <hr>
 
-<h2>Competition Preferences</h2>
+<h2>Rate Each Statement (1-5)</h2>
+<p>1 = Strongly Disagree | 5 = Strongly Agree</p>
 
 <div id="questions"></div>
 
@@ -50,29 +57,29 @@ emailjs.init("YOUR_PUBLIC_KEY");
 const questions = [
 
 "I enjoy highly competitive environments.",
-"I stay calm under pressure during timed challenges.",
+"I stay calm during timed challenges.",
 "I enjoy solving puzzles and logic problems.",
 "I prefer physically active challenges.",
-"I am comfortable taking leadership roles in group situations.",
-"I prefer supporting others rather than leading.",
-"I enjoy strategic or planning-based games.",
-"I work well with people I just met.",
-"I am good at persuading others to adopt my strategy.",
+"I like taking leadership roles.",
+"I prefer supporting others instead of leading.",
+"I enjoy strategy and planning games.",
+"I work well with new teammates.",
+"I can persuade others to follow a strategy.",
 "I enjoy creative or improvisational challenges.",
-"I am comfortable performing or speaking in front of others.",
-"I am willing to take risks if it might benefit my team.",
-"I tend to carefully analyze problems before acting.",
-"I keep team morale high during stressful situations.",
-"I enjoy endurance challenges that last a long time.",
-"I adapt quickly when rules or situations change.",
-"I enjoy friendly trash talk with competitors.",
-"I prefer collaboration over individual spotlight.",
-"I notice small details that others miss.",
-"I like to experiment with unconventional ideas.",
-"I can stay positive even when my team is losing.",
+"I am comfortable performing in front of others.",
+"I am willing to take risks for my team.",
+"I analyze problems before acting.",
+"I help keep morale high in stressful situations.",
+"I enjoy long endurance challenges.",
+"I adapt quickly to rule changes.",
+"I enjoy playful trash talk with competitors.",
+"I prefer collaboration over spotlight.",
+"I notice details others miss.",
+"I try unconventional ideas.",
+"I stay positive even when losing.",
 "I enjoy social games and icebreakers.",
-"I am motivated by helping my team succeed.",
-"I enjoy planning tactics before starting a challenge."
+"I am motivated by team success.",
+"I enjoy planning tactics before starting."
 
 ];
 
@@ -86,11 +93,11 @@ div.className = "form-group";
 div.innerHTML = `
 <label>${i+1}. ${q}</label>
 <div>
-<label><input type="radio" name="q${i}" value="1" required> 1</label>
-<label><input type="radio" name="q${i}" value="2"> 2</label>
-<label><input type="radio" name="q${i}" value="3"> 3</label>
-<label><input type="radio" name="q${i}" value="4"> 4</label>
-<label><input type="radio" name="q${i}" value="5"> 5</label>
+<label><input type="radio" name="q${i}" value="1" required>1</label>
+<label><input type="radio" name="q${i}" value="2">2</label>
+<label><input type="radio" name="q${i}" value="3">3</label>
+<label><input type="radio" name="q${i}" value="4">4</label>
+<label><input type="radio" name="q${i}" value="5">5</label>
 </div>
 `;
 
@@ -107,7 +114,7 @@ const formData = new FormData(this);
 let responseText = "";
 
 questions.forEach((q,i)=>{
-responseText += `${i+1}. ${q} — ${formData.get("q"+i)}\n`;
+responseText += `${i+1}. ${q}: ${formData.get("q"+i)}\n`;
 });
 
 const templateParams = {
@@ -119,14 +126,15 @@ emailjs.send(
 "YOUR_SERVICE_ID",
 "YOUR_TEMPLATE_ID",
 templateParams
-)
-.then(function(){
+).then(() => {
 
-window.location.href = "success.html";
+alert("Survey submitted successfully!");
 
-}, function(error){
+this.reset();
 
-alert("Submission failed. Please try again.");
+}, () => {
+
+alert("Submission failed.");
 
 });
 
@@ -136,3 +144,4 @@ alert("Submission failed. Please try again.");
 
 </body>
 </html>
+```
