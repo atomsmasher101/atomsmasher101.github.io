@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Llama Meetup Competition Questionnaire</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="form-header">
+<h1>Team Balancing Survey</h1>
+<div class="header-info">
+<h2>Llama Meetup Competition</h2>
+<p>Help us create two evenly matched teams</p>
+</div>
+</div>
+
+<form id="meetupForm">
+
+<h2>Participant Information</h2>
+
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" id="name" name="name" required>
+</div>
+
+<hr>
+
+<h2>Competition Preferences</h2>
+
+<div id="questions"></div>
+
+<button type="submit" class="submit-btn">Submit Survey</button>
+
+</form>
+
+</div>
+
+<script>
+
+(function(){
+emailjs.init("YOUR_PUBLIC_KEY");
+})();
+
+const questions = [
+
+"I enjoy highly competitive environments.",
+"I stay calm under pressure during timed challenges.",
+"I enjoy solving puzzles and logic problems.",
+"I prefer physically active challenges.",
+"I am comfortable taking leadership roles in group situations.",
+"I prefer supporting others rather than leading.",
+"I enjoy strategic or planning-based games.",
+"I work well with people I just met.",
+"I am good at persuading others to adopt my strategy.",
+"I enjoy creative or improvisational challenges.",
+"I am comfortable performing or speaking in front of others.",
+"I am willing to take risks if it might benefit my team.",
+"I tend to carefully analyze problems before acting.",
+"I keep team morale high during stressful situations.",
+"I enjoy endurance challenges that last a long time.",
+"I adapt quickly when rules or situations change.",
+"I enjoy friendly trash talk with competitors.",
+"I prefer collaboration over individual spotlight.",
+"I notice small details that others miss.",
+"I like to experiment with unconventional ideas.",
+"I can stay positive even when my team is losing.",
+"I enjoy social games and icebreakers.",
+"I am motivated by helping my team succeed.",
+"I enjoy planning tactics before starting a challenge."
+
+];
+
+const container = document.getElementById("questions");
+
+questions.forEach((q,i)=>{
+
+const div = document.createElement("div");
+div.className = "form-group";
+
+div.innerHTML = `
+<label>${i+1}. ${q}</label>
+<div>
+<label><input type="radio" name="q${i}" value="1" required> 1</label>
+<label><input type="radio" name="q${i}" value="2"> 2</label>
+<label><input type="radio" name="q${i}" value="3"> 3</label>
+<label><input type="radio" name="q${i}" value="4"> 4</label>
+<label><input type="radio" name="q${i}" value="5"> 5</label>
+</div>
+`;
+
+container.appendChild(div);
+
+});
+
+document.getElementById("meetupForm").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const formData = new FormData(this);
+
+let responseText = "";
+
+questions.forEach((q,i)=>{
+responseText += `${i+1}. ${q} — ${formData.get("q"+i)}\n`;
+});
+
+const templateParams = {
+name: formData.get("name"),
+responses: responseText
+};
+
+emailjs.send(
+"YOUR_SERVICE_ID",
+"YOUR_TEMPLATE_ID",
+templateParams
+)
+.then(function(){
+
+window.location.href = "success.html";
+
+}, function(error){
+
+alert("Submission failed. Please try again.");
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
