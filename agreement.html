@@ -1,277 +1,223 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llama Community Meetup Agreement</title>
-    <link rel="stylesheet" href="style.css?v=2">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Llama Meetup Team Balancing Survey</title>
+
+<link rel="stylesheet" href="style.css?v=2">
+
+<style>
+.likert-row{
+display:flex;
+gap:18px;
+align-items:center;
+margin-top:6px;
+flex-wrap:wrap;
+}
+
+.likert-row label{
+display:flex;
+align-items:center;
+gap:4px;
+cursor:pointer;
+}
+
+.scale-guide{
+font-size:0.9em;
+margin-bottom:20px;
+opacity:0.8;
+}
+</style>
+
 </head>
 <body>
-    <!-- Navigation -->
-    <div id="nav-placeholder"></div>
 
-    <script>
-        // Fetch and inject the navigation
-        fetch('nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('nav-placeholder').innerHTML = data;
-                
-                // Highlight the active link based on the current filename
-                const currentPage = window.location.pathname.split("/").pop() || "index.html";
-                const navLinks = document.querySelectorAll('nav a');
-                navLinks.forEach(link => {
-                    if (link.getAttribute('href') === currentPage) {
-                        link.style.color = '#ffff00'; // Yellow for active page
-                    }
-                });
-            });
-    </script>
+<div id="nav-placeholder"></div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="form-header">
-            <h1>Llama Meetup Agreement</h1>
-            <div class="header-info">
-                <h2>Wilmington, North Carolina</h2>
-                <p><strong>Effective Date:</strong> 02/06/2026</p>
-            </div>
-        </div>
+<script>
+fetch('nav.html')
+.then(response => response.text())
+.then(data => {
+document.getElementById('nav-placeholder').innerHTML = data;
 
-        <form id="meetupForm">
-            <h2>1. My/Our Information</h2>
-            
-            <div class="form-group">
-                <label for="names">Name/Couple Names *</label>
-                <input type="text" id="names" name="names" required>
-            </div>
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
+const navLinks = document.querySelectorAll('nav a');
 
-            <div class="form-group">
-                <label for="discord">Discord Username(s) *</label>
-                <input type="text" id="discord" name="discord" required>
-            </div>
+navLinks.forEach(link => {
+if (link.getAttribute('href') === currentPage) {
+link.style.color = '#ffff00';
+}
+});
+});
+</script>
 
-            <div class="form-group">
-                <label for="emergency_contact">Emergency Contact *</label>
-                <input type="text" id="emergency_contact" name="emergency_contact" required>
-            </div>
+<div class="container">
 
-            <div class="form-group">
-                <label for="emergency_phone">Emergency Contact Phone *</label>
-                <input type="tel" id="emergency_phone" name="emergency_phone" required>
-            </div>
+<div class="form-header">
+<h1>Team Balancing Survey</h1>
+<div class="header-info">
+<h2>Llama Community Meetup 2026</h2>
+<p>Please answer honestly so teams can be balanced.</p>
+</div>
+</div>
 
-            <hr>
+<form id="meetupForm">
 
-            <h2>2. My/Our Payment Commitment</h2>
+<h2>Participant Information</h2>
 
-            <h3>Payment Schedule</h3>
-            <p>I/We agree to make the following payments:</p>
+<div class="form-group">
+<label for="name">Name *</label>
+<input type="text" id="name" name="name" required>
+</div>
 
-            <div class="payment-box">
-                <p><strong>First Payment (Due Now):</strong> $182.90</p>
-                <p><strong>Payment Method:</strong> PayPal Pool (managed by Zack Stroud)</p>
-            </div>
+<hr>
 
-            <div class="payment-box">
-                <p><strong>Second Payment (Due June 2026):</strong> $182.89</p>
-                <p><strong>Due Date:</strong> June 24, 2026 (or before)</p>
-                <p><strong>Payment Method:</strong> PayPal Pool (managed by Zack Stroud)</p>
-            </div>
+<h2>Rate Each Statement</h2>
+<p class="scale-guide">1 = Strongly Disagree | 5 = Strongly Agree</p>
 
-            <p><strong>My/Our Total Cost: $365.79</strong></p>
+<div id="questions"></div>
 
-            <h3>What My/Our Payment Covers:</h3>
-            <p>These payments cover accommodations only. The total cost is based on 6 estimated participants and is subject to change if the number of participants changes, as the rental cost is being split evenly among all attendees.</p>
-            
-            <p>I/We understand that I/we may be asked to contribute to group meals and shared activities later, which are not included in these payments.</p>
+<button type="submit">Submit Survey</button>
 
-            <h3>Cancellation Policy</h3>
-            <div class="important">
-                <p>I/We understand:</p>
-                <ul>
-                    <li><strong>First Payment:</strong> This is a non-refundable deposit</li>
-                    <li><strong>Second Payment:</strong> May be refunded if I/we cancel up to one week prior to June 24, 2026 (by June 17, 2026)</li>
-                    <li>Cancellations made after June 17, 2026: No refund</li>
-                    <li>No-shows: No refund</li>
-                </ul>
-            </div>
+</form>
 
-            <hr>
+</div>
 
-            <h2>3. My/Our Code of Conduct Commitment</h2>
-            <p>By signing this agreement, I/we commit to abiding by the following code of conduct:</p>
+<footer>
+<div class="footer-logo">
+<a href="https://www.twitch.tv/littleredatom" target="_blank">
+<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/b2df9826-e39c-4838-a095-4a8a17e15a8c-profile_image-70x70.png">
+</a>
+</div>
 
-            <h3>Respect and Inclusivity</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Treat all attendees with respect, kindness, and dignity</li>
-                <li>Respect personal boundaries and comfort levels</li>
-                <li>Be inclusive of all participants regardless of background, identity, or ability</li>
-                <li>Refrain from harassment, discrimination, or bullying of any kind</li>
-            </ul>
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="https://www.paypal.com/pool/9m0WwqqE03?sr=ancr" target="_blank">PayPal Pool</a>
+</div>
 
-            <h3>Communication</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Communicate openly and honestly with the group</li>
-                <li>Address conflicts directly and respectfully</li>
-                <li>Notify organizers immediately of any concerns or issues</li>
-                <li>Respect quiet hours and shared spaces</li>
-            </ul>
+<p><strong>Llama Community Meetup 2026</strong></p>
+<p>Wilmington, North Carolina • June 24-27</p>
+<p style="margin-top:1rem;opacity:0.7;">Made with 🦙 and ❤️</p>
+</footer>
 
-            <h3>Shared Spaces</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Keep shared accommodations clean and tidy</li>
-                <li>Respect others' personal belongings</li>
-                <li>Follow house rules of any rental properties</li>
-                <li>Be mindful of noise levels, especially during late hours</li>
-            </ul>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-            <h3>Alcohol and Substances</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Follow all local laws regarding alcohol and substances</li>
-                <li>Drink responsibly if choosing to consume alcohol</li>
-                <li>Never pressure others to drink or participate in activities they're uncomfortable with</li>
-                <li>Not use illegal drugs</li>
-            </ul>
+<script>
 
-            <h3>Safety</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Notify the group if leaving for extended periods</li>
-                <li>Use the buddy system when exploring unfamiliar areas</li>
-                <li>Follow all local laws and regulations</li>
-                <li>Report any safety concerns to organizers immediately</li>
-            </ul>
+(function(){
+emailjs.init("pdHztMpEAGH3unfJw");
+})();
 
-            <h3>Shared Expenses</h3>
-            <p>I/We will:</p>
-            <ul>
-                <li>Pay agreed-upon contributions on time</li>
-                <li>Contribute fairly to group meals and activities</li>
-                <li>Communicate about additional shared expenses</li>
-            </ul>
+const questions = [
 
-            <h3>Consequences</h3>
-            <p>I/We understand that violation of this code of conduct may result in:</p>
-            <ul>
-                <li>Warning from organizers</li>
-                <li>Requirement to leave the meetup without refund</li>
-                <li>Exclusion from future group events</li>
-            </ul>
+{text:"I enjoy highly competitive environments.",category:"strategy"},
+{text:"I stay calm during timed challenges.",category:"adaptability"},
+{text:"I enjoy solving puzzles and logic problems.",category:"puzzle"},
+{text:"I prefer physically active challenges.",category:"physical"},
+{text:"I like taking leadership roles.",category:"leadership"},
+{text:"I prefer supporting others instead of leading.",category:"social"},
+{text:"I enjoy strategy and planning games.",category:"strategy"},
+{text:"I work well with new teammates.",category:"social"},
+{text:"I can persuade others to follow a strategy.",category:"leadership"},
+{text:"I enjoy creative or improvisational challenges.",category:"creativity"},
+{text:"I am comfortable performing in front of others.",category:"social"},
+{text:"I am willing to take risks for my team.",category:"adaptability"},
+{text:"I analyze problems before acting.",category:"puzzle"},
+{text:"I help keep morale high in stressful situations.",category:"social"},
+{text:"I enjoy long endurance challenges.",category:"physical"},
+{text:"I adapt quickly to rule changes.",category:"adaptability"},
+{text:"I enjoy playful trash talk with competitors.",category:"social"},
+{text:"I prefer collaboration over spotlight.",category:"social"},
+{text:"I notice details others miss.",category:"puzzle"},
+{text:"I try unconventional ideas.",category:"creativity"},
+{text:"I stay positive even when losing.",category:"adaptability"},
+{text:"I enjoy social games and icebreakers.",category:"social"},
+{text:"I am motivated by helping my team succeed.",category:"leadership"},
+{text:"I enjoy planning tactics before starting.",category:"strategy"}
 
-            <hr>
+];
 
-            <h2>4. My/Our Acknowledgment of Liability</h2>
-            <p>I/We understand and acknowledge that:</p>
-            <ul>
-                <li>My/Our participation in this meetup is voluntary</li>
-                <li>I/We are responsible for my/our own safety and well-being</li>
-                <li>The organizers are not liable for injuries, losses, or damages</li>
-                <li>I/We have adequate health insurance coverage</li>
-                <li>I/We will follow all local laws and regulations in Wilmington, NC</li>
-            </ul>
+const container = document.getElementById("questions");
 
-            <hr>
+questions.forEach((q,i)=>{
 
-            <h2>5. My/Our Agreement</h2>
-            
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="agreement_check" name="agreement_check" required>
-                    <label for="agreement_check">I/We have read, understood, and agree to all terms outlined in this agreement, including the payment schedule and code of conduct. *</label>
-                </div>
-            </div>
+const div=document.createElement("div");
+div.className="form-group";
 
-            <div class="signature-section">
-                <div class="form-group">
-                    <label for="signature1">My Signature (Type Full Name) *</label>
-                    <input type="text" id="signature1" name="signature1" required>
-                </div>
+div.innerHTML=`
+<label>${i+1}. ${q.text}</label>
+<div class="likert-row">
+<label><input type="radio" name="q${i}" value="1" required>1</label>
+<label><input type="radio" name="q${i}" value="2">2</label>
+<label><input type="radio" name="q${i}" value="3">3</label>
+<label><input type="radio" name="q${i}" value="4">4</label>
+<label><input type="radio" name="q${i}" value="5">5</label>
+</div>
+`;
 
-                <div class="form-group">
-                    <label for="date1">Date *</label>
-                    <input type="text" id="date1" name="date1" required>
-                </div>
+container.appendChild(div);
 
-                <div class="form-group">
-                    <label for="signature2">Spouse/Other Participant Signature (if applicable)</label>
-                    <input type="text" id="signature2" name="signature2">
-                </div>
+});
 
-                <div class="form-group">
-                    <label for="date2">Date (if applicable)</label>
-                    <input type="text" id="date2" name="date2">
-                </div>
-            </div>
+document.getElementById('meetupForm').addEventListener('submit',function(e){
 
-            <button type="submit">Submit Agreement</button>
-        </form>
-    </div>
+e.preventDefault();
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-logo">
-            <a href="https://www.twitch.tv/littleredatom" target="_blank">
-                <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/b2df9826-e39c-4838-a095-4a8a17e15a8c-profile_image-70x70.png" alt="LittleRedAtom Logo">
-            </a>
-        </div>
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="https://www.paypal.com/pool/9m0WwqqE03?sr=ancr" target="_blank">PayPal Pool</a>
-        </div>
-        <p><strong>Llama Community Meetup 2026</strong></p>
-        <p>Wilmington, North Carolina • June 24-27</p>
-        <p style="margin-top: 1rem; opacity: 0.7;">Made with 🦙 and ❤️</p>
-    </footer>
+const submitButton=document.querySelector('button[type="submit"]');
+submitButton.disabled=true;
+submitButton.textContent='Submitting...';
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS with your public key
-        (function() {
-            emailjs.init("pdHztMpEAGH3unfJw");
-        })();
+const formData=new FormData(this);
 
-        document.getElementById('meetupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitButton = document.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
-            
-            // Collect form data
-            const formData = new FormData(this);
-            const templateParams = {
-                names: formData.get('names'),
-                discord: formData.get('discord'),
-                emergency_contact: formData.get('emergency_contact'),
-                emergency_phone: formData.get('emergency_phone'),
-                signature1: formData.get('signature1'),
-                date1: formData.get('date1'),
-                signature2: formData.get('signature2') || 'N/A',
-                date2: formData.get('date2') || 'N/A',
-                submission_date: new Date().toLocaleString()
-            };
-            
-            // Send email using EmailJS
-            emailjs.send('service_t4wpecc', 'template_jy7115z', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    // Redirect to success page
-                    window.location.href = 'success.html';
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    alert('There was an error submitting the form. Please try again or contact the organizer directly.');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Submit Agreement';
-                });
-        });
-    </script>
+let responses="";
+let categoryScores={};
+
+questions.forEach((q,i)=>{
+
+const score=parseInt(formData.get("q"+i));
+
+responses += `${i+1}. ${q.text}: ${score}\n`;
+
+if(!categoryScores[q.category]) categoryScores[q.category]=0;
+
+categoryScores[q.category]+=score;
+
+});
+
+let categorySummary="\nCATEGORY TOTALS\n";
+
+for(const cat in categoryScores){
+categorySummary += `${cat}: ${categoryScores[cat]}\n`;
+}
+
+const templateParams={
+name:formData.get("name"),
+responses:responses + categorySummary,
+submission_date:new Date().toLocaleString()
+};
+
+emailjs.send('service_t4wpecc','template_jy7115z',templateParams)
+.then(function(){
+window.location.href='success.html';
+},function(){
+
+alert('There was an error submitting the survey.');
+
+submitButton.disabled=false;
+submitButton.textContent='Submit Survey';
+
+});
+
+});
+
+</script>
+
 </body>
 </html>
+```
