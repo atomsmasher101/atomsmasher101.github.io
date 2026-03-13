@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Llama Meetup Team Balancing Survey</title>
 
-<!-- Site Styles -->
-<link rel="stylesheet" href="https://nctrip.wascomb.com/style.css">
-
-<!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link rel="stylesheet" href="style.css?v=2">
 
 <style>
-
-/* Force Likert scale to display left-to-right */
 .likert-row{
 display:flex;
 gap:18px;
@@ -33,19 +32,36 @@ font-size:0.9em;
 margin-bottom:20px;
 opacity:0.8;
 }
-
 </style>
 
 </head>
-
 <body>
+
+<div id="nav-placeholder"></div>
+
+<script>
+fetch('nav.html')
+.then(response => response.text())
+.then(data => {
+document.getElementById('nav-placeholder').innerHTML = data;
+
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
+const navLinks = document.querySelectorAll('nav a');
+
+navLinks.forEach(link => {
+if (link.getAttribute('href') === currentPage) {
+link.style.color = '#ffff00';
+}
+});
+});
+</script>
 
 <div class="container">
 
 <div class="form-header">
 <h1>Team Balancing Survey</h1>
 <div class="header-info">
-<h2>NC Llama Meetup Competition</h2>
+<h2>Llama Community Meetup 2026</h2>
 <p>Please answer honestly so teams can be balanced.</p>
 </div>
 </div>
@@ -55,72 +71,86 @@ opacity:0.8;
 <h2>Participant Information</h2>
 
 <div class="form-group">
-<label for="name">Name</label>
+<label for="name">Name *</label>
 <input type="text" id="name" name="name" required>
 </div>
 
 <hr>
 
 <h2>Rate Each Statement</h2>
-<p class="scale-guide">1 = Strongly Disagree &nbsp;&nbsp; | &nbsp;&nbsp; 5 = Strongly Agree</p>
+<p class="scale-guide">1 = Strongly Disagree | 5 = Strongly Agree</p>
 
 <div id="questions"></div>
 
-<button type="submit" class="submit-btn">Submit Survey</button>
+<button type="submit">Submit Survey</button>
 
 </form>
 
 </div>
 
+<footer>
+<div class="footer-logo">
+<a href="https://www.twitch.tv/littleredatom" target="_blank">
+<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/b2df9826-e39c-4838-a095-4a8a17e15a8c-profile_image-70x70.png">
+</a>
+</div>
+
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="https://www.paypal.com/pool/9m0WwqqE03?sr=ancr" target="_blank">PayPal Pool</a>
+</div>
+
+<p><strong>Llama Community Meetup 2026</strong></p>
+<p>Wilmington, North Carolina • June 24-27</p>
+<p style="margin-top:1rem;opacity:0.7;">Made with 🦙 and ❤️</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 <script>
 
-/* Initialize EmailJS */
 (function(){
-emailjs.init("YOUR_PUBLIC_KEY");
+emailjs.init("pdHztMpEAGH3unfJw");
 })();
-
-/* Questionnaire statements */
 
 const questions = [
 
-"I enjoy highly competitive environments.",
-"I stay calm during timed challenges.",
-"I enjoy solving puzzles and logic problems.",
-"I prefer physically active challenges.",
-"I like taking leadership roles.",
-"I prefer supporting others instead of leading.",
-"I enjoy strategy and planning games.",
-"I work well with new teammates.",
-"I can persuade others to follow a strategy.",
-"I enjoy creative or improvisational challenges.",
-"I am comfortable performing in front of others.",
-"I am willing to take risks for my team.",
-"I analyze problems before acting.",
-"I help keep morale high in stressful situations.",
-"I enjoy long endurance challenges.",
-"I adapt quickly to rule changes.",
-"I enjoy playful trash talk with competitors.",
-"I prefer collaboration over individual spotlight.",
-"I notice details others miss.",
-"I try unconventional ideas.",
-"I stay positive even when losing.",
-"I enjoy social games and icebreakers.",
-"I am motivated by helping my team succeed.",
-"I enjoy planning tactics before starting."
+{text:"I enjoy highly competitive environments.",category:"strategy"},
+{text:"I stay calm during timed challenges.",category:"adaptability"},
+{text:"I enjoy solving puzzles and logic problems.",category:"puzzle"},
+{text:"I prefer physically active challenges.",category:"physical"},
+{text:"I like taking leadership roles.",category:"leadership"},
+{text:"I prefer supporting others instead of leading.",category:"social"},
+{text:"I enjoy strategy and planning games.",category:"strategy"},
+{text:"I work well with new teammates.",category:"social"},
+{text:"I can persuade others to follow a strategy.",category:"leadership"},
+{text:"I enjoy creative or improvisational challenges.",category:"creativity"},
+{text:"I am comfortable performing in front of others.",category:"social"},
+{text:"I am willing to take risks for my team.",category:"adaptability"},
+{text:"I analyze problems before acting.",category:"puzzle"},
+{text:"I help keep morale high in stressful situations.",category:"social"},
+{text:"I enjoy long endurance challenges.",category:"physical"},
+{text:"I adapt quickly to rule changes.",category:"adaptability"},
+{text:"I enjoy playful trash talk with competitors.",category:"social"},
+{text:"I prefer collaboration over spotlight.",category:"social"},
+{text:"I notice details others miss.",category:"puzzle"},
+{text:"I try unconventional ideas.",category:"creativity"},
+{text:"I stay positive even when losing.",category:"adaptability"},
+{text:"I enjoy social games and icebreakers.",category:"social"},
+{text:"I am motivated by helping my team succeed.",category:"leadership"},
+{text:"I enjoy planning tactics before starting.",category:"strategy"}
 
 ];
-
-/* Generate question UI */
 
 const container = document.getElementById("questions");
 
 questions.forEach((q,i)=>{
 
-const div = document.createElement("div");
-div.className = "form-group";
+const div=document.createElement("div");
+div.className="form-group";
 
-div.innerHTML = `
-<label>${i+1}. ${q}</label>
+div.innerHTML=`
+<label>${i+1}. ${q.text}</label>
 <div class="likert-row">
 <label><input type="radio" name="q${i}" value="1" required>1</label>
 <label><input type="radio" name="q${i}" value="2">2</label>
@@ -134,37 +164,52 @@ container.appendChild(div);
 
 });
 
-/* Form Submission */
-
-document.getElementById("meetupForm").addEventListener("submit", function(e){
+document.getElementById('meetupForm').addEventListener('submit',function(e){
 
 e.preventDefault();
 
-const formData = new FormData(this);
+const submitButton=document.querySelector('button[type="submit"]');
+submitButton.disabled=true;
+submitButton.textContent='Submitting...';
 
-let responseText = "";
+const formData=new FormData(this);
+
+let responses="";
+let categoryScores={};
 
 questions.forEach((q,i)=>{
-responseText += `${i+1}. ${q}: ${formData.get("q"+i)}\n`;
+
+const score=parseInt(formData.get("q"+i));
+
+responses += `${i+1}. ${q.text}: ${score}\n`;
+
+if(!categoryScores[q.category]) categoryScores[q.category]=0;
+
+categoryScores[q.category]+=score;
+
 });
 
-const templateParams = {
-name: formData.get("name"),
-responses: responseText
+let categorySummary="\nCATEGORY TOTALS\n";
+
+for(const cat in categoryScores){
+categorySummary += `${cat}: ${categoryScores[cat]}\n`;
+}
+
+const templateParams={
+name:formData.get("name"),
+responses:responses + categorySummary,
+submission_date:new Date().toLocaleString()
 };
 
-emailjs.send(
-"YOUR_SERVICE_ID",
-"YOUR_TEMPLATE_ID",
-templateParams
-).then(function(){
+emailjs.send('service_t4wpecc','template_jy7115z',templateParams)
+.then(function(){
+window.location.href='success.html';
+},function(){
 
-alert("Survey submitted successfully!");
-document.getElementById("meetupForm").reset();
+alert('There was an error submitting the survey.');
 
-}, function(){
-
-alert("Submission failed. Please try again.");
+submitButton.disabled=false;
+submitButton.textContent='Submit Survey';
 
 });
 
@@ -174,4 +219,3 @@ alert("Submission failed. Please try again.");
 
 </body>
 </html>
-```
