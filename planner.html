@@ -281,8 +281,8 @@
                         <button type="button" data-vote-id="${activity.id}">👍 ${activity.votes}</button>
                     </div>
                     <form class="comment-form" data-comment-id="${activity.id}">
-                        <input name="author" maxlength="80" placeholder="Name (optional)">
-                        <input name="body" maxlength="500" required placeholder="Add a reply for this activity thread...">
+                        <input name="author" type="text" maxlength="80" placeholder="Name (optional)">
+                        <input name="body" type="text" maxlength="500" required placeholder="Add a reply for this activity thread...">
                         <button type="submit">Reply</button>
                     </form>
                     <div class="comments" id="comments-${activity.id}"></div>
