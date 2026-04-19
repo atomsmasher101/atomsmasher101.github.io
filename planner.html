@@ -36,17 +36,6 @@
         </section>
 
         <section class="planner-section">
-            <h2>Cloudflare Worker Setup</h2>
-            <p>Set your Worker URL below. Example: <code>https://trip-planner-api.your-subdomain.workers.dev</code></p>
-            <div class="api-config">
-                <label for="worker-url">Worker Base URL</label>
-                <input id="worker-url" type="url" placeholder="https://trip-planner-api.your-subdomain.workers.dev">
-                <button id="save-worker-url" type="button">Save URL</button>
-            </div>
-            <p class="planner-note">Tip: this is stored locally in your browser. Each person can use the same URL.</p>
-        </section>
-
-        <section class="planner-section">
             <h2>1) Submit Activity Suggestions</h2>
             <form id="activity-form" class="planner-form">
                 <div class="form-row">
@@ -121,11 +110,7 @@
     </main>
 
     <script>
-        const STORAGE_KEY = 'plannerWorkerBaseUrl';
-        const defaultWorkerUrl = 'https://trip-planner-api.your-subdomain.workers.dev';
-
-        const workerUrlInput = document.getElementById('worker-url');
-        const saveWorkerButton = document.getElementById('save-worker-url');
+        const WORKER_BASE_URL = 'https://nctripactivities.littleredatom.workers.dev';
         const activityForm = document.getElementById('activity-form');
         const timelineForm = document.getElementById('timeline-form');
         const activityList = document.getElementById('activity-list');
@@ -135,15 +120,19 @@
 
         let activitiesCache = [];
 
-        function getWorkerBaseUrl() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            return saved || defaultWorkerUrl;
-        }
-
         function setFormStatus(id, message, isError = false) {
             const el = document.getElementById(id);
             el.textContent = message;
             el.classList.toggle('error', isError);
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
         }
 
         function formatDate(day) {
@@ -151,7 +140,7 @@
         }
 
         async function api(path, options = {}) {
-            const base = getWorkerBaseUrl().replace(/\/$/, '');
+            const base = WORKER_BASE_URL.replace(/\/$/, '');
             const response = await fetch(`${base}${path}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -187,11 +176,11 @@
         }
 
         function buildCommentNode(comment) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'comment-item';
-            wrapper.innerHTML = `
-                <p><strong>${comment.author || 'Anonymous'}</strong> · ${new Date(comment.createdAt).toLocaleString()}</p>
-                <p>${comment.body}</p>
+                const wrapper = document.createElement('div');
+                wrapper.className = 'comment-item';
+                wrapper.innerHTML = `
+                <p><strong>${escapeHtml(comment.author || 'Anonymous')}</strong> · ${new Date(comment.createdAt).toLocaleString()}</p>
+                <p>${escapeHtml(comment.body)}</p>
             `;
             return wrapper;
         }
@@ -221,9 +210,9 @@
                         const block = document.createElement('div');
                         block.className = 'timeline-block';
                         block.innerHTML = `
-                            <p><strong>${entry.title}</strong></p>
-                            <p>${entry.startTime} - ${entry.endTime}</p>
-                            <p>by ${entry.author || 'Anonymous'}</p>
+                            <p><strong>${escapeHtml(entry.title)}</strong></p>
+                            <p>${escapeHtml(entry.startTime)} - ${escapeHtml(entry.endTime)}</p>
+                            <p>by ${escapeHtml(entry.author || 'Anonymous')}</p>
                         `;
                         dayCard.appendChild(block);
                     });
@@ -246,8 +235,8 @@
                 const intensity = Math.max(10, Math.min(100, row.totalVotes * 10));
                 item.innerHTML = `
                     <div class="master-row-header">
-                        <strong>${row.title}</strong>
-                        <span>${formatDate(row.day)} · ${row.startTime}-${row.endTime}</span>
+                        <strong>${escapeHtml(row.title)}</strong>
+                        <span>${formatDate(row.day)} · ${escapeHtml(row.startTime)}-${escapeHtml(row.endTime)}</span>
                     </div>
                     <div class="master-meter">
                         <div class="master-meter-fill" style="width:${intensity}%"></div>
@@ -285,9 +274,9 @@
                 const card = document.createElement('article');
                 card.className = 'activity-card';
                 card.innerHTML = `
-                    <h3>${activity.title}</h3>
-                    <p>${activity.description || 'No description provided.'}</p>
-                    <p class="meta">Submitted by ${activity.author || 'Anonymous'} · ${new Date(activity.createdAt).toLocaleString()}</p>
+                    <h3>${escapeHtml(activity.title)}</h3>
+                    <p>${escapeHtml(activity.description || 'No description provided.')}</p>
+                    <p class="meta">Submitted by ${escapeHtml(activity.author || 'Anonymous')} · ${new Date(activity.createdAt).toLocaleString()}</p>
                     <div class="activity-actions">
                         <button type="button" data-vote-id="${activity.id}">👍 ${activity.votes}</button>
                     </div>
@@ -350,18 +339,6 @@
             buildMasterTimeline(masterData.rows);
         }
 
-        saveWorkerButton.addEventListener('click', async () => {
-            const value = workerUrlInput.value.trim();
-            if (!value) {
-                alert('Please enter a Worker URL first.');
-                return;
-            }
-
-            localStorage.setItem(STORAGE_KEY, value);
-            await refreshEverything();
-            alert('Worker URL saved.');
-        });
-
         activityForm.addEventListener('submit', async event => {
             event.preventDefault();
             const payload = {
@@ -417,7 +394,6 @@
             }
         });
 
-        workerUrlInput.value = getWorkerBaseUrl();
         refreshEverything().catch(error => {
             setFormStatus('activity-form-status', `Initial load failed: ${error.message}`, true);
             setFormStatus('timeline-form-status', `Initial load failed: ${error.message}`, true);

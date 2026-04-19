@@ -41,4 +41,4 @@ npx wrangler deploy
 
 ## Frontend wiring
 
-`planner.html` includes a "Worker Base URL" field. Set it to your deployed Worker URL and save.
+`planner.html` is preconfigured to call `https://nctripactivities.littleredatom.workers.dev`.

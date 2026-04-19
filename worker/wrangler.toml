@@ -1,8 +1,8 @@
-name = "trip-planner-api"
+name = "nctripactivities"
 main = "src/index.js"
 compatibility_date = "2026-04-19"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "trip_planner"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_name = "nctripactivities"
+database_id = "0ed54071-c1dd-497d-8950-08e4ca683116"
