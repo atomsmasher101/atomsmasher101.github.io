@@ -40,7 +40,7 @@
             <form id="activity-form" class="planner-form">
                 <div class="form-row">
                     <label for="activity-title">Activity title</label>
-                    <input id="activity-title" maxlength="120" required placeholder="Example: Riverwalk + dinner crawl">
+                    <input id="activity-title" type="text" maxlength="120" required placeholder="Example: Riverwalk + dinner crawl">
                 </div>
                 <div class="form-row">
                     <label for="activity-description">Description</label>
@@ -49,7 +49,7 @@
                 <div class="form-row form-row-inline">
                     <div>
                         <label for="activity-author">Your name (optional)</label>
-                        <input id="activity-author" maxlength="80" placeholder="Name or handle">
+                        <input id="activity-author" type="text" maxlength="80" placeholder="Name or handle">
                     </div>
                     <button type="submit">Submit Activity</button>
                 </div>
@@ -83,7 +83,7 @@
                     </div>
                     <div>
                         <label for="timeline-author">Name (optional)</label>
-                        <input id="timeline-author" maxlength="80" placeholder="Name or handle">
+                        <input id="timeline-author" type="text" maxlength="80" placeholder="Name or handle">
                     </div>
                 </div>
                 <div class="form-row form-row-inline">
@@ -281,8 +281,8 @@
                         <button type="button" data-vote-id="${activity.id}">👍 ${activity.votes}</button>
                     </div>
                     <form class="comment-form" data-comment-id="${activity.id}">
-                        <input name="author" maxlength="80" placeholder="Name (optional)">
-                        <input name="body" maxlength="500" required placeholder="Add a reply for this activity thread...">
+                        <input name="author" type="text" maxlength="80" placeholder="Name (optional)">
+                        <input name="body" type="text" maxlength="500" required placeholder="Add a reply for this activity thread...">
                         <button type="submit">Reply</button>
                     </form>
                     <div class="comments" id="comments-${activity.id}"></div>
