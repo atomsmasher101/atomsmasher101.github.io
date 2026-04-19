@@ -117,8 +117,26 @@
         const timelineGrid = document.getElementById('timeline-grid');
         const masterTimeline = document.getElementById('master-timeline');
         const activitySelect = document.getElementById('timeline-activity');
+        const VOTED_ACTIVITIES_STORAGE_KEY = 'plannerVotedActivities';
 
         let activitiesCache = [];
+        let votedActivities = loadVotedActivities();
+
+        function loadVotedActivities() {
+            try {
+                const raw = localStorage.getItem(VOTED_ACTIVITIES_STORAGE_KEY);
+                if (!raw) return new Set();
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return new Set();
+                return new Set(parsed.filter(value => Number.isInteger(value) && value > 0));
+            } catch {
+                return new Set();
+            }
+        }
+
+        function saveVotedActivities() {
+            localStorage.setItem(VOTED_ACTIVITIES_STORAGE_KEY, JSON.stringify([...votedActivities]));
+        }
 
         function setFormStatus(id, message, isError = false) {
             const el = document.getElementById(id);
@@ -271,6 +289,7 @@
             }
 
             activities.forEach(activity => {
+                const hasVoted = votedActivities.has(activity.id);
                 const card = document.createElement('article');
                 card.className = 'activity-card';
                 card.innerHTML = `
@@ -278,7 +297,9 @@
                     <p>${escapeHtml(activity.description || 'No description provided.')}</p>
                     <p class="meta">Submitted by ${escapeHtml(activity.author || 'Anonymous')} · ${new Date(activity.createdAt).toLocaleString()}</p>
                     <div class="activity-actions">
-                        <button type="button" data-vote-id="${activity.id}">👍 ${activity.votes}</button>
+                        <button type="button" data-vote-id="${activity.id}" aria-pressed="${hasVoted}">
+                            ${hasVoted ? '👎 Remove vote' : '👍 Vote'} (${activity.votes})
+                        </button>
                     </div>
                     <form class="comment-form" data-comment-id="${activity.id}">
                         <input name="author" type="text" maxlength="80" placeholder="Name (optional)">
@@ -293,8 +314,22 @@
 
             document.querySelectorAll('[data-vote-id]').forEach(button => {
                 button.addEventListener('click', async () => {
+                    const activityId = Number(button.dataset.voteId);
+                    const hasVoted = votedActivities.has(activityId);
+                    const delta = hasVoted ? -1 : 1;
+
                     try {
-                        await api(`/api/activities/${button.dataset.voteId}/vote`, { method: 'POST' });
+                        await api(`/api/activities/${activityId}/vote`, {
+                            method: 'POST',
+                            body: JSON.stringify({ delta })
+                        });
+
+                        if (hasVoted) {
+                            votedActivities.delete(activityId);
+                        } else {
+                            votedActivities.add(activityId);
+                        }
+                        saveVotedActivities();
                         await refreshEverything();
                     } catch (error) {
                         alert(`Unable to vote: ${error.message}`);
