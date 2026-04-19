@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS timeline_entries (
   start_time TEXT NOT NULL,
   end_time TEXT NOT NULL,
   author TEXT,
+  seconds INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(activity_id) REFERENCES activities(id)
 );

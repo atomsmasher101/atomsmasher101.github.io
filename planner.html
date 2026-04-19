@@ -118,9 +118,11 @@
         const masterTimeline = document.getElementById('master-timeline');
         const activitySelect = document.getElementById('timeline-activity');
         const VOTED_ACTIVITIES_STORAGE_KEY = 'plannerVotedActivities';
+        const SECONDED_TIMELINE_STORAGE_KEY = 'plannerSecondedTimelineEntries';
 
         let activitiesCache = [];
         let votedActivities = loadVotedActivities();
+        let secondedTimelineEntries = loadSecondedTimelineEntries();
 
         function loadVotedActivities() {
             try {
@@ -140,6 +142,26 @@
 
         function saveVotedActivities() {
             localStorage.setItem(VOTED_ACTIVITIES_STORAGE_KEY, JSON.stringify([...votedActivities]));
+        }
+
+        function loadSecondedTimelineEntries() {
+            try {
+                const raw = localStorage.getItem(SECONDED_TIMELINE_STORAGE_KEY);
+                if (!raw) return new Set();
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return new Set();
+                return new Set(
+                    parsed
+                        .map(value => Number(value))
+                        .filter(value => Number.isInteger(value) && value > 0)
+                );
+            } catch {
+                return new Set();
+            }
+        }
+
+        function saveSecondedTimelineEntries() {
+            localStorage.setItem(SECONDED_TIMELINE_STORAGE_KEY, JSON.stringify([...secondedTimelineEntries]));
         }
 
         function setFormStatus(id, message, isError = false) {
@@ -229,14 +251,44 @@
                     dayCard.appendChild(empty);
                 } else {
                     entries.forEach(entry => {
+                        const timelineEntryId = Number(entry.id);
+                        const hasSeconded = secondedTimelineEntries.has(timelineEntryId);
+                        const totalSupport = 1 + Number(entry.seconds || 0);
                         const block = document.createElement('div');
                         block.className = 'timeline-block';
                         block.innerHTML = `
                             <p><strong>${escapeHtml(entry.title)}</strong></p>
                             <p>${escapeHtml(entry.startTime)} - ${escapeHtml(entry.endTime)}</p>
                             <p>by ${escapeHtml(entry.author || 'Anonymous')}</p>
+                            <p>${totalSupport} supporter${totalSupport === 1 ? '' : 's'}</p>
+                            <button type="button" data-second-id="${timelineEntryId}" aria-pressed="${hasSeconded}">
+                                ${hasSeconded ? '↩️ Undo second' : '🙋 Second this'}
+                            </button>
                         `;
                         dayCard.appendChild(block);
+
+                        const secondButton = block.querySelector('[data-second-id]');
+                        secondButton.addEventListener('click', async () => {
+                            const hasSeconded = secondedTimelineEntries.has(timelineEntryId);
+                            const delta = hasSeconded ? -1 : 1;
+
+                            try {
+                                await api(`/api/timeline-entries/${timelineEntryId}/second`, {
+                                    method: 'POST',
+                                    body: JSON.stringify({ delta })
+                                });
+
+                                if (hasSeconded) {
+                                    secondedTimelineEntries.delete(timelineEntryId);
+                                } else {
+                                    secondedTimelineEntries.add(timelineEntryId);
+                                }
+                                saveSecondedTimelineEntries();
+                                await refreshEverything();
+                            } catch (error) {
+                                alert(`Unable to second timeline item: ${error.message}`);
+                            }
+                        });
                     });
                 }
 
