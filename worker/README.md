@@ -37,6 +37,7 @@ npx wrangler deploy
 - `POST /api/activities/:id/comments`
 - `GET /api/timeline-entries`
 - `POST /api/timeline-entries`
+- `POST /api/timeline-entries/:id/second`
 - `GET /api/timeline/master`
 
 ## Frontend wiring

@@ -104,10 +104,12 @@ export default {
       }
 
       if (url.pathname === '/api/timeline-entries' && request.method === 'GET') {
+        await ensureTimelineSecondsColumn(env);
         const rows = await env.DB
           .prepare(`
             SELECT t.id, t.activity_id AS activityId, t.day, t.start_time AS startTime,
-                   t.end_time AS endTime, t.author, t.created_at AS createdAt, a.title
+                   t.end_time AS endTime, t.author, t.created_at AS createdAt,
+                   COALESCE(t.seconds, 0) AS seconds, a.title
             FROM timeline_entries t
             JOIN activities a ON a.id = t.activity_id
             ORDER BY t.day ASC, t.start_time ASC
@@ -118,6 +120,7 @@ export default {
       }
 
       if (url.pathname === '/api/timeline-entries' && request.method === 'POST') {
+        await ensureTimelineSecondsColumn(env);
         const payload = await request.json();
         const activityId = Number(payload.activityId);
         const day = String(payload.day || '').trim();
@@ -144,14 +147,38 @@ export default {
         return json({ ok: true }, 201);
       }
 
+      const secondMatch = url.pathname.match(/^\/api\/timeline-entries\/(\d+)\/second$/);
+      if (secondMatch && request.method === 'POST') {
+        await ensureTimelineSecondsColumn(env);
+        const timelineEntryId = Number(secondMatch[1]);
+        const payload = await request.json().catch(() => ({}));
+        const delta = Number(payload.delta);
+
+        if (![1, -1].includes(delta)) {
+          return json({ error: 'delta must be either 1 or -1.' }, 400);
+        }
+
+        await env.DB
+          .prepare(`
+            UPDATE timeline_entries
+            SET seconds = MAX(0, COALESCE(seconds, 0) + ?2)
+            WHERE id = ?1
+          `)
+          .bind(timelineEntryId, delta)
+          .run();
+
+        return json({ ok: true });
+      }
+
       if (url.pathname === '/api/timeline/master' && request.method === 'GET') {
+        await ensureTimelineSecondsColumn(env);
         const rows = await env.DB
           .prepare(`
             SELECT a.title,
                    t.day,
                    t.start_time AS startTime,
                    t.end_time AS endTime,
-                   COUNT(*) AS totalVotes
+                   SUM(1 + COALESCE(t.seconds, 0)) AS totalVotes
             FROM timeline_entries t
             JOIN activities a ON a.id = t.activity_id
             GROUP BY t.activity_id, t.day, t.start_time, t.end_time
@@ -183,4 +210,25 @@ function withCors(response) {
   response.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
   return response;
+}
+
+let timelineSecondsMigrationPromise;
+
+async function ensureTimelineSecondsColumn(env) {
+  if (!timelineSecondsMigrationPromise) {
+    timelineSecondsMigrationPromise = (async () => {
+      const columns = await env.DB.prepare('PRAGMA table_info(timeline_entries)').all();
+      const hasSecondsColumn = (columns.results || []).some(column => column.name === 'seconds');
+      if (!hasSecondsColumn) {
+        await env.DB
+          .prepare('ALTER TABLE timeline_entries ADD COLUMN seconds INTEGER NOT NULL DEFAULT 0')
+          .run();
+      }
+    })().catch(error => {
+      timelineSecondsMigrationPromise = null;
+      throw error;
+    });
+  }
+
+  return timelineSecondsMigrationPromise;
 }
