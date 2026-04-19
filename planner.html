@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Planner Hub - Wilmington 2026</title>
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
     <div id="nav-placeholder"></div>
@@ -31,66 +31,373 @@
     <main class="planner-page">
         <section class="planner-hero">
             <h1>Wilmington Trip Planner Hub</h1>
-            <p>Suggest activities, comment on ideas, and vote on the June 24-27 timeline.</p>
-            <p class="planner-subtitle">Let Atom know if this is too complicated lol.</p>
+            <p>Custom activity submissions, voting, and timeline planning powered by a Cloudflare Worker.</p>
+            <p class="planner-subtitle">No GitHub account required anymore.</p>
         </section>
 
         <section class="planner-section">
-            <h2>How this works</h2>
-            <ol>
-                <li>Drop an activity suggestion in the <strong>Activity Suggestions</strong> thread.</li>
-                <li>Reply to discuss details, costs, and logistics.</li>
-                <li>Vote by reacting with <strong>👍</strong> to comments you support.</li>
-                <li>Use the <strong>Timeline Poll</strong> thread to vote on when each activity should happen between June 24 and June 27.</li>
-            </ol>
-            <p class="planner-note">You will need a GitHub account to comment and vote.</p>
+            <h2>1) Submit Activity Suggestions</h2>
+            <form id="activity-form" class="planner-form">
+                <div class="form-row">
+                    <label for="activity-title">Activity title</label>
+                    <input id="activity-title" maxlength="120" required placeholder="Example: Riverwalk + dinner crawl">
+                </div>
+                <div class="form-row">
+                    <label for="activity-description">Description</label>
+                    <textarea id="activity-description" rows="3" maxlength="600" placeholder="What is it, cost estimate, group size, travel notes?"></textarea>
+                </div>
+                <div class="form-row form-row-inline">
+                    <div>
+                        <label for="activity-author">Your name (optional)</label>
+                        <input id="activity-author" maxlength="80" placeholder="Name or handle">
+                    </div>
+                    <button type="submit">Submit Activity</button>
+                </div>
+            </form>
+            <p id="activity-form-status" class="form-status" aria-live="polite"></p>
         </section>
 
         <section class="planner-section">
-            <h2>1) Activity Suggestions + Discussion + Voting</h2>
-            <p>Post one activity per comment. Add links, expected cost, and best time of day. Everyone can reply and react with 👍 to vote.</p>
-            <div id="activity-thread" class="thread-shell"></div>
-            <div class="reply-help">
-                <p><strong>Need direct replies?</strong> Open the full GitHub thread and use <strong>Quote reply</strong> or <strong>Reply</strong> under the specific comment.</p>
-                <a class="reply-link" href="https://github.com/atomsmasher101/atomsmasher101.github.io/issues?q=is%3Aissue+is%3Aopen+%22Wilmington+Trip+Activities%22" target="_blank" rel="noopener noreferrer">Open Activity Thread on GitHub ↗</a>
-            </div>
-            <p class="thread-fallback">If the embed doesn't load, open it directly on GitHub: <a href="https://github.com/atomsmasher101/atomsmasher101.github.io/issues?q=is%3Aissue+is%3Aopen+%22Wilmington+Trip+Activities%22" target="_blank" rel="noopener noreferrer">Activity thread</a>.</p>
+            <h2>2) Vote + Threaded Discussion</h2>
+            <p>Each suggestion has votes and its own reply thread.</p>
+            <div id="activity-list" class="activity-list"></div>
         </section>
 
         <section class="planner-section">
-            <h2>2) Timeline Poll (June 24-27)</h2>
-            <p>Vote on which day each activity belongs on. Use comments for schedule proposals and react with 👍 to vote on each proposal.</p>
-            <p class="planner-note">Reply to individual proposals in the GitHub thread to keep timeline debates organized.</p>
-            <ul class="timeline-options">
-                <li><strong>June 24 (Wed):</strong> Arrival + easy evening options</li>
-                <li><strong>June 25 (Thu):</strong> Downtown + challenge-friendly activities</li>
-                <li><strong>June 26 (Fri):</strong> Beach day + nightlife</li>
-                <li><strong>June 27 (Sat):</strong> Wrap-up / brunch / departures</li>
-            </ul>
-            <div id="timeline-thread" class="thread-shell"></div>
-            <div class="reply-help">
-                <a class="reply-link" href="https://github.com/atomsmasher101/atomsmasher101.github.io/issues?q=is%3Aissue+is%3Aopen+%22Wilmington+Trip+Timeline+Poll%22" target="_blank" rel="noopener noreferrer">Open Timeline Thread on GitHub ↗</a>
-            </div>
-            <p class="thread-fallback">If the embed doesn't load, open it directly on GitHub: <a href="https://github.com/atomsmasher101/atomsmasher101.github.io/issues?q=is%3Aissue+is%3Aopen+%22Wilmington+Trip+Timeline+Poll%22" target="_blank" rel="noopener noreferrer">Timeline poll thread</a>.</p>
+            <h2>3) Visual Timeline Suggestions</h2>
+            <p>Assign suggested activities to days and time ranges.</p>
+            <form id="timeline-form" class="planner-form">
+                <div class="form-row form-row-inline form-row-three">
+                    <div>
+                        <label for="timeline-activity">Activity</label>
+                        <select id="timeline-activity" required></select>
+                    </div>
+                    <div>
+                        <label for="timeline-day">Day</label>
+                        <select id="timeline-day" required>
+                            <option value="2026-06-24">June 24 (Wed)</option>
+                            <option value="2026-06-25">June 25 (Thu)</option>
+                            <option value="2026-06-26">June 26 (Fri)</option>
+                            <option value="2026-06-27">June 27 (Sat)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="timeline-author">Name (optional)</label>
+                        <input id="timeline-author" maxlength="80" placeholder="Name or handle">
+                    </div>
+                </div>
+                <div class="form-row form-row-inline">
+                    <div>
+                        <label for="timeline-start">Start time</label>
+                        <input id="timeline-start" type="time" required>
+                    </div>
+                    <div>
+                        <label for="timeline-end">End time</label>
+                        <input id="timeline-end" type="time" required>
+                    </div>
+                    <button type="submit">Add Timeline Suggestion</button>
+                </div>
+            </form>
+            <p id="timeline-form-status" class="form-status" aria-live="polite"></p>
+            <div id="timeline-grid" class="timeline-grid"></div>
+        </section>
+
+        <section class="planner-section">
+            <h2>4) Master Timeline (Aggregated)</h2>
+            <p>Higher bars = more suggested overlap for that activity + slot.</p>
+            <div id="master-timeline" class="master-timeline"></div>
         </section>
     </main>
 
     <script>
-        function injectUtterances(containerId, issueTerm) {
-            const container = document.getElementById(containerId);
-            const script = document.createElement('script');
-            script.src = 'https://utteranc.es/client.js';
-            script.setAttribute('repo', 'atomsmasher101/atomsmasher101.github.io');
-            script.setAttribute('issue-term', issueTerm);
-            script.setAttribute('label', 'trip-planning');
-            script.setAttribute('theme', 'github-dark');
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            container.appendChild(script);
+        const WORKER_BASE_URL = 'https://nctripactivities.littleredatom.workers.dev';
+        const activityForm = document.getElementById('activity-form');
+        const timelineForm = document.getElementById('timeline-form');
+        const activityList = document.getElementById('activity-list');
+        const timelineGrid = document.getElementById('timeline-grid');
+        const masterTimeline = document.getElementById('master-timeline');
+        const activitySelect = document.getElementById('timeline-activity');
+
+        let activitiesCache = [];
+
+        function setFormStatus(id, message, isError = false) {
+            const el = document.getElementById(id);
+            el.textContent = message;
+            el.classList.toggle('error', isError);
         }
 
-        injectUtterances('activity-thread', 'Wilmington Trip Activities');
-        injectUtterances('timeline-thread', 'Wilmington Trip Timeline Poll');
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function formatDate(day) {
+            return new Date(`${day}T00:00:00`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        }
+
+        async function api(path, options = {}) {
+            const base = WORKER_BASE_URL.replace(/\/$/, '');
+            const response = await fetch(`${base}${path}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(options.headers || {})
+                },
+                ...options
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(text || `Request failed: ${response.status}`);
+            }
+
+            return response.json();
+        }
+
+        function renderActivitySelector() {
+            activitySelect.innerHTML = '';
+            if (!activitiesCache.length) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'Submit an activity first';
+                activitySelect.appendChild(option);
+                return;
+            }
+
+            activitiesCache.forEach(activity => {
+                const option = document.createElement('option');
+                option.value = activity.id;
+                option.textContent = `${activity.title} (${activity.votes} votes)`;
+                activitySelect.appendChild(option);
+            });
+        }
+
+        function buildCommentNode(comment) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'comment-item';
+                wrapper.innerHTML = `
+                <p><strong>${escapeHtml(comment.author || 'Anonymous')}</strong> · ${new Date(comment.createdAt).toLocaleString()}</p>
+                <p>${escapeHtml(comment.body)}</p>
+            `;
+            return wrapper;
+        }
+
+        function buildTimelineBlocks(timelineEntries) {
+            const byDay = timelineEntries.reduce((acc, entry) => {
+                acc[entry.day] = acc[entry.day] || [];
+                acc[entry.day].push(entry);
+                return acc;
+            }, {});
+
+            timelineGrid.innerHTML = '';
+
+            ['2026-06-24', '2026-06-25', '2026-06-26', '2026-06-27'].forEach(day => {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'timeline-day';
+                const entries = (byDay[day] || []).sort((a, b) => a.startTime.localeCompare(b.startTime));
+                dayCard.innerHTML = `<h3>${formatDate(day)}</h3>`;
+
+                if (!entries.length) {
+                    const empty = document.createElement('p');
+                    empty.className = 'planner-note';
+                    empty.textContent = 'No suggestions yet.';
+                    dayCard.appendChild(empty);
+                } else {
+                    entries.forEach(entry => {
+                        const block = document.createElement('div');
+                        block.className = 'timeline-block';
+                        block.innerHTML = `
+                            <p><strong>${escapeHtml(entry.title)}</strong></p>
+                            <p>${escapeHtml(entry.startTime)} - ${escapeHtml(entry.endTime)}</p>
+                            <p>by ${escapeHtml(entry.author || 'Anonymous')}</p>
+                        `;
+                        dayCard.appendChild(block);
+                    });
+                }
+
+                timelineGrid.appendChild(dayCard);
+            });
+        }
+
+        function buildMasterTimeline(masterRows) {
+            masterTimeline.innerHTML = '';
+            if (!masterRows.length) {
+                masterTimeline.innerHTML = '<p class="planner-note">No aggregate data yet.</p>';
+                return;
+            }
+
+            masterRows.forEach(row => {
+                const item = document.createElement('div');
+                item.className = 'master-row';
+                const intensity = Math.max(10, Math.min(100, row.totalVotes * 10));
+                item.innerHTML = `
+                    <div class="master-row-header">
+                        <strong>${escapeHtml(row.title)}</strong>
+                        <span>${formatDate(row.day)} · ${escapeHtml(row.startTime)}-${escapeHtml(row.endTime)}</span>
+                    </div>
+                    <div class="master-meter">
+                        <div class="master-meter-fill" style="width:${intensity}%"></div>
+                    </div>
+                    <p>${row.totalVotes} timeline suggestions</p>
+                `;
+                masterTimeline.appendChild(item);
+            });
+        }
+
+        async function loadComments(activityId, container) {
+            container.innerHTML = '<p>Loading replies...</p>';
+            try {
+                const { comments } = await api(`/api/activities/${activityId}/comments`);
+                container.innerHTML = '';
+                if (!comments.length) {
+                    container.innerHTML = '<p class="planner-note">No replies yet.</p>';
+                    return;
+                }
+                comments.forEach(comment => container.appendChild(buildCommentNode(comment)));
+            } catch (error) {
+                container.innerHTML = `<p class="error">Failed to load replies: ${error.message}</p>`;
+            }
+        }
+
+        function renderActivities(activities) {
+            activityList.innerHTML = '';
+
+            if (!activities.length) {
+                activityList.innerHTML = '<p class="planner-note">No activities yet. Be the first to submit one.</p>';
+                return;
+            }
+
+            activities.forEach(activity => {
+                const card = document.createElement('article');
+                card.className = 'activity-card';
+                card.innerHTML = `
+                    <h3>${escapeHtml(activity.title)}</h3>
+                    <p>${escapeHtml(activity.description || 'No description provided.')}</p>
+                    <p class="meta">Submitted by ${escapeHtml(activity.author || 'Anonymous')} · ${new Date(activity.createdAt).toLocaleString()}</p>
+                    <div class="activity-actions">
+                        <button type="button" data-vote-id="${activity.id}">👍 ${activity.votes}</button>
+                    </div>
+                    <form class="comment-form" data-comment-id="${activity.id}">
+                        <input name="author" maxlength="80" placeholder="Name (optional)">
+                        <input name="body" maxlength="500" required placeholder="Add a reply for this activity thread...">
+                        <button type="submit">Reply</button>
+                    </form>
+                    <div class="comments" id="comments-${activity.id}"></div>
+                `;
+                activityList.appendChild(card);
+                loadComments(activity.id, card.querySelector(`#comments-${activity.id}`));
+            });
+
+            document.querySelectorAll('[data-vote-id]').forEach(button => {
+                button.addEventListener('click', async () => {
+                    try {
+                        await api(`/api/activities/${button.dataset.voteId}/vote`, { method: 'POST' });
+                        await refreshEverything();
+                    } catch (error) {
+                        alert(`Unable to vote: ${error.message}`);
+                    }
+                });
+            });
+
+            document.querySelectorAll('[data-comment-id]').forEach(form => {
+                form.addEventListener('submit', async event => {
+                    event.preventDefault();
+                    const id = form.dataset.commentId;
+                    const data = new FormData(form);
+                    const body = data.get('body');
+                    const author = data.get('author');
+
+                    try {
+                        await api(`/api/activities/${id}/comments`, {
+                            method: 'POST',
+                            body: JSON.stringify({ body, author })
+                        });
+                        form.reset();
+                        const commentsContainer = document.getElementById(`comments-${id}`);
+                        await loadComments(id, commentsContainer);
+                    } catch (error) {
+                        alert(`Unable to submit reply: ${error.message}`);
+                    }
+                });
+            });
+        }
+
+        async function refreshEverything() {
+            const [activitiesData, timelineData, masterData] = await Promise.all([
+                api('/api/activities'),
+                api('/api/timeline-entries'),
+                api('/api/timeline/master')
+            ]);
+
+            activitiesCache = activitiesData.activities;
+            renderActivities(activitiesCache);
+            renderActivitySelector();
+            buildTimelineBlocks(timelineData.entries);
+            buildMasterTimeline(masterData.rows);
+        }
+
+        activityForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const payload = {
+                title: document.getElementById('activity-title').value.trim(),
+                description: document.getElementById('activity-description').value.trim(),
+                author: document.getElementById('activity-author').value.trim()
+            };
+
+            try {
+                await api('/api/activities', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                activityForm.reset();
+                setFormStatus('activity-form-status', 'Activity submitted.');
+                await refreshEverything();
+            } catch (error) {
+                setFormStatus('activity-form-status', `Could not submit: ${error.message}`, true);
+            }
+        });
+
+        timelineForm.addEventListener('submit', async event => {
+            event.preventDefault();
+
+            const payload = {
+                activityId: Number(activitySelect.value),
+                day: document.getElementById('timeline-day').value,
+                startTime: document.getElementById('timeline-start').value,
+                endTime: document.getElementById('timeline-end').value,
+                author: document.getElementById('timeline-author').value.trim()
+            };
+
+            if (!payload.activityId) {
+                setFormStatus('timeline-form-status', 'Pick an activity first.', true);
+                return;
+            }
+
+            if (payload.endTime <= payload.startTime) {
+                setFormStatus('timeline-form-status', 'End time must be after start time.', true);
+                return;
+            }
+
+            try {
+                await api('/api/timeline-entries', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                timelineForm.reset();
+                setFormStatus('timeline-form-status', 'Timeline suggestion submitted.');
+                await refreshEverything();
+            } catch (error) {
+                setFormStatus('timeline-form-status', `Could not submit: ${error.message}`, true);
+            }
+        });
+
+        refreshEverything().catch(error => {
+            setFormStatus('activity-form-status', `Initial load failed: ${error.message}`, true);
+            setFormStatus('timeline-form-status', `Initial load failed: ${error.message}`, true);
+        });
     </script>
 </body>
 </html>
