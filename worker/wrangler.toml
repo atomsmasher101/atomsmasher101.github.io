@@ -1,0 +1,8 @@
+name = "trip-planner-api"
+main = "src/index.js"
+compatibility_date = "2026-04-19"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "trip_planner"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
