@@ -183,6 +183,17 @@
             return new Date(`${day}T00:00:00`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
         }
 
+        function formatTimelineTime(value) {
+            if (!value) return '';
+            const [hourString, minuteString = '00'] = String(value).split(':');
+            const hour = Number(hourString);
+            const minute = Number(minuteString);
+            if (!Number.isFinite(hour) || !Number.isFinite(minute)) return value;
+            const period = hour >= 12 ? 'PM' : 'AM';
+            const normalizedHour = hour % 12 || 12;
+            return `${normalizedHour}:${String(minute).padStart(2, '0')} ${period}`;
+        }
+
         async function api(path, options = {}) {
             const base = WORKER_BASE_URL.replace(/\/$/, '');
             const response = await fetch(`${base}${path}`, {
@@ -258,7 +269,7 @@
                         block.className = 'timeline-block';
                         block.innerHTML = `
                             <p><strong>${escapeHtml(entry.title)}</strong></p>
-                            <p>${escapeHtml(entry.startTime)} - ${escapeHtml(entry.endTime)}</p>
+                            <p>${escapeHtml(formatTimelineTime(entry.startTime))} - ${escapeHtml(formatTimelineTime(entry.endTime))}</p>
                             <p>by ${escapeHtml(entry.author || 'Anonymous')}</p>
                             <p>${totalSupport} supporter${totalSupport === 1 ? '' : 's'}</p>
                             <button type="button" data-second-id="${timelineEntryId}" aria-pressed="${hasSeconded}">
@@ -310,7 +321,7 @@
                 item.innerHTML = `
                     <div class="master-row-header">
                         <strong>${escapeHtml(row.title)}</strong>
-                        <span>${formatDate(row.day)} · ${escapeHtml(row.startTime)}-${escapeHtml(row.endTime)}</span>
+                        <span>${formatDate(row.day)} · ${escapeHtml(formatTimelineTime(row.startTime))}-${escapeHtml(formatTimelineTime(row.endTime))}</span>
                     </div>
                     <div class="master-meter">
                         <div class="master-meter-fill" style="width:${intensity}%"></div>
