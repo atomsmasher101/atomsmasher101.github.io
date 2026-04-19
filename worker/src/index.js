@@ -47,14 +47,20 @@ export default {
       const voteMatch = url.pathname.match(/^\/api\/activities\/(\d+)\/vote$/);
       if (voteMatch && request.method === 'POST') {
         const activityId = Number(voteMatch[1]);
+        const payload = await request.json().catch(() => ({}));
+        const delta = Number(payload.delta);
+
+        if (![1, -1].includes(delta)) {
+          return json({ error: 'delta must be either 1 or -1.' }, 400);
+        }
 
         await env.DB
           .prepare(`
             UPDATE activities
-            SET votes = votes + 1
+            SET votes = MAX(0, votes + ?2)
             WHERE id = ?1
           `)
-          .bind(activityId)
+          .bind(activityId, delta)
           .run();
 
         return json({ ok: true });
