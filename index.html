@@ -7,6 +7,9 @@
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llama Community Meetup - Wilmington 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
@@ -30,6 +33,30 @@
                 });
             });
     </script>
+
+    <section class="checkin-countdown" aria-label="Check-in countdown">
+        <h2 class="checkin-countdown-title">Check-in Countdown</h2>
+        <div class="countdown-panel" id="countdownPanel">
+            <p class="countdown-target">Until June 24, 2026 • 4:00 PM EST</p>
+            <div class="checkin-countdown-grid" role="timer" aria-live="polite">
+                <div class="checkin-countdown-block">
+                    <span class="checkin-countdown-value" id="countdownDays">0</span>
+                    <span class="checkin-countdown-label">Days</span>
+                </div>
+                <div class="checkin-countdown-block">
+                    <span class="checkin-countdown-value" id="countdownHours">0</span>
+                    <span class="checkin-countdown-label">Hours</span>
+                </div>
+                <div class="checkin-countdown-block">
+                    <span class="checkin-countdown-value" id="countdownMinutes">0</span>
+                    <span class="checkin-countdown-label">Minutes</span>
+                </div>
+            </div>
+        </div>
+        <button class="countdown-collapse" id="countdownToggle" aria-expanded="true" aria-controls="countdownPanel" aria-label="Collapse countdown">
+            <span class="countdown-chevron" aria-hidden="true">⌄</span>
+        </button>
+    </section>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -200,6 +227,50 @@
     </footer>
 
     <script>
+        (function setupCountdown() {
+            const targetDate = new Date('2026-06-24T16:00:00-05:00');
+            const daysEl = document.getElementById('countdownDays');
+            const hoursEl = document.getElementById('countdownHours');
+            const minutesEl = document.getElementById('countdownMinutes');
+            const toggleBtn = document.getElementById('countdownToggle');
+            const panel = document.getElementById('countdownPanel');
+            const chevron = toggleBtn.querySelector('.countdown-chevron');
+
+            function setUnitValues(diffMs) {
+                if (diffMs <= 0) {
+                    daysEl.textContent = '0';
+                    hoursEl.textContent = '0';
+                    minutesEl.textContent = '0';
+                    return;
+                }
+
+                const totalMinutes = Math.floor(diffMs / (1000 * 60));
+                const days = Math.floor(totalMinutes / (60 * 24));
+                const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+                const minutes = totalMinutes % 60;
+
+                daysEl.textContent = String(days);
+                hoursEl.textContent = String(hours).padStart(2, '0');
+                minutesEl.textContent = String(minutes).padStart(2, '0');
+            }
+
+            function updateCountdown() {
+                const now = new Date();
+                setUnitValues(targetDate.getTime() - now.getTime());
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+                panel.hidden = isExpanded;
+                toggleBtn.setAttribute('aria-label', isExpanded ? 'Expand countdown' : 'Collapse countdown');
+                chevron.textContent = isExpanded ? '⌃' : '⌄';
+            });
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        })();
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

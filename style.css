@@ -34,6 +34,97 @@ section {
     scroll-margin-top: 100px;
 }
 
+/* --- Homepage Check-in Countdown --- */
+.checkin-countdown {
+    max-width: 1200px;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.checkin-countdown-title {
+    color: #00ffff;
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.9rem;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+}
+
+.countdown-panel {
+    border: 2px solid rgba(255, 0, 255, 0.9);
+    border-radius: 16px;
+    padding: 1rem 1.2rem 1.1rem;
+    background: radial-gradient(circle at top, rgba(35, 35, 35, 0.95), rgba(0, 0, 0, 0.95));
+    box-shadow: 0 0 24px rgba(255, 0, 255, 0.18);
+}
+
+.countdown-target {
+    color: #ffff00;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: clamp(0.75rem, 1.8vw, 1rem);
+    font-weight: 700;
+}
+
+.checkin-countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.checkin-countdown-block {
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.checkin-countdown-value {
+    display: block;
+    color: #ffffff;
+    font-family: 'Press Start 2P', cursive;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 4.2vw, 3.6rem);
+    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
+}
+
+.checkin-countdown-label {
+    display: block;
+    margin-top: 0.6rem;
+    color: #00ffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.countdown-collapse {
+    margin-top: 0.55rem;
+    width: 56px;
+    height: 38px;
+    border: 2px solid #00ffff;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.countdown-collapse:hover {
+    color: #ff00ff;
+    border-color: #ff00ff;
+    box-shadow: 0 0 16px rgba(255, 0, 255, 0.4);
+}
+
+.countdown-chevron {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 900;
+}
+
 /* --- Navigation Styles --- */
 nav {
     position: fixed;
@@ -114,6 +205,14 @@ nav a:hover {
     nav a {
         font-size: 0.75rem;
         padding: 0.3rem 0.5rem;
+    }
+
+    .checkin-countdown-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkin-countdown-title {
+        font-size: 1.1rem;
     }
 }
 
