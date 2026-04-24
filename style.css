@@ -39,36 +39,24 @@ section {
     max-width: 1200px;
     margin: 1rem auto 0;
     padding: 0 1rem;
+    text-align: center;
 }
 
-.countdown-toggle {
-    width: 100%;
-    border: 2px solid #00ffff;
-    background: rgba(0, 0, 0, 0.9);
+.checkin-countdown-title {
     color: #00ffff;
-    font-family: 'Press Start 2P', cursive;
-    font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 1rem;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.countdown-toggle:hover {
-    border-color: #ff00ff;
-    color: #ff00ff;
+    letter-spacing: 2px;
+    margin-bottom: 0.9rem;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
 }
 
 .countdown-panel {
-    margin-top: 0.8rem;
     border: 2px solid rgba(255, 0, 255, 0.9);
-    border-radius: 12px;
-    padding: 1rem 1.2rem 1.5rem;
+    border-radius: 16px;
+    padding: 1rem 1.2rem 1.1rem;
     background: radial-gradient(circle at top, rgba(35, 35, 35, 0.95), rgba(0, 0, 0, 0.95));
+    box-shadow: 0 0 24px rgba(255, 0, 255, 0.18);
 }
 
 .countdown-target {
@@ -97,6 +85,7 @@ section {
     display: block;
     color: #ffffff;
     font-family: 'Press Start 2P', cursive;
+    font-weight: 400;
     font-size: clamp(1.6rem, 4.2vw, 3.6rem);
     line-height: 1.2;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
@@ -110,6 +99,30 @@ section {
     letter-spacing: 1px;
     font-size: 0.75rem;
     font-weight: 700;
+}
+
+.countdown-collapse {
+    margin-top: 0.55rem;
+    width: 56px;
+    height: 38px;
+    border: 2px solid #00ffff;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.countdown-collapse:hover {
+    color: #ff00ff;
+    border-color: #ff00ff;
+    box-shadow: 0 0 16px rgba(255, 0, 255, 0.4);
+}
+
+.countdown-chevron {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 900;
 }
 
 /* --- Navigation Styles --- */
@@ -198,9 +211,8 @@ nav a:hover {
         grid-template-columns: 1fr;
     }
 
-    .countdown-toggle {
-        font-size: 0.65rem;
-        padding: 0.9rem;
+    .checkin-countdown-title {
+        font-size: 1.1rem;
     }
 }
 

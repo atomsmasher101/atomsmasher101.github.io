@@ -35,10 +35,7 @@
     </script>
 
     <section class="checkin-countdown" aria-label="Check-in countdown">
-        <button class="countdown-toggle" id="countdownToggle" aria-expanded="true" aria-controls="countdownPanel">
-            Check-in Countdown
-            <span class="countdown-chevron" aria-hidden="true">▾</span>
-        </button>
+        <h2 class="checkin-countdown-title">Check-in Countdown</h2>
         <div class="countdown-panel" id="countdownPanel">
             <p class="countdown-target">Until June 24, 2026 • 4:00 PM EST</p>
             <div class="checkin-countdown-grid" role="timer" aria-live="polite">
@@ -56,6 +53,9 @@
                 </div>
             </div>
         </div>
+        <button class="countdown-collapse" id="countdownToggle" aria-expanded="true" aria-controls="countdownPanel" aria-label="Collapse countdown">
+            <span class="countdown-chevron" aria-hidden="true">⌄</span>
+        </button>
     </section>
 
     <!-- Hero Section -->
@@ -263,7 +263,8 @@
                 const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
                 toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
                 panel.hidden = isExpanded;
-                chevron.textContent = isExpanded ? '▸' : '▾';
+                toggleBtn.setAttribute('aria-label', isExpanded ? 'Expand countdown' : 'Collapse countdown');
+                chevron.textContent = isExpanded ? '⌃' : '⌄';
             });
 
             updateCountdown();
